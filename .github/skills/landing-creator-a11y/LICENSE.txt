@@ -1,0 +1,7 @@
+Apache License
+Version 2.0, January 2004
+http://www.apache.org/licenses/
+
+This skill combines content from:
+- W3C WCAG 2.2 Guidelines: https://www.w3.org/WAI/WCAG22/quickref/
+- Anthropic Skills Repository: https://github.com/anthropics/skills/tree/main/skills/frontend-design
