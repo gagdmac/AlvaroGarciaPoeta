@@ -1,0 +1,34 @@
+name: Rebuild Sonnets Index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sonnets/*.json'
+      - '!sonnets/index.json'
+
+jobs:
+  rebuild-index:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rebuild sonnets index
+        run: node scripts/build-index.js
+
+      - name: Commit updated index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sonnets/index.json
+          git diff --cached --quiet || git commit -m "Rebuild sonnets index"
+          git push

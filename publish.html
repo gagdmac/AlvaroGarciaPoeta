@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publicar Soneto — Álvaro García</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome 5.15.4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    /* ══════════════════════════════════════════
+       DESIGN TOKENS (shared with index.html)
+       ══════════════════════════════════════════ */
+    :root {
+      color-scheme: light dark;
+
+      --font-display: 'Cormorant Garamond', 'Georgia', serif;
+      --font-body: 'Libre Baskerville', 'Georgia', serif;
+
+      --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+      --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+      --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+      --text-lg: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+      --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+      --text-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+      --text-3xl: clamp(1.8rem, 1.4rem + 2vw, 2.5rem);
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-24: 6rem;
+
+      --radius-sm: 0.25rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 1rem;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.06);
+
+      --duration-fast: 150ms;
+      --duration-normal: 250ms;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+      --color-ink: light-dark(#1a1410, #ede8e0);
+      --color-ink-secondary: light-dark(#5c5347, #b0a899);
+      --color-ink-muted: light-dark(#8a8278, #7a7368);
+      --color-parchment: light-dark(#faf6f0, #171310);
+      --color-parchment-warm: light-dark(#f5efe5, #1e1a15);
+      --color-parchment-deep: light-dark(#ebe4d8, #252019);
+      --color-accent: light-dark(#8b4513, #d4a76a);
+      --color-accent-hover: light-dark(#6b3410, #e0bb82);
+      --color-accent-subtle: light-dark(rgba(139,69,19,0.08), rgba(212,167,106,0.12));
+      --color-border: light-dark(#e0d8cc, #2e2821);
+      --color-border-subtle: light-dark(#ede8e0, #222019);
+      --color-focus: light-dark(#5b7bb5, #8aa8d8);
+      --color-success: light-dark(#2e7d32, #66bb6a);
+      --color-success-bg: light-dark(#e8f5e9, #1b3a1e);
+      --color-error: light-dark(#c62828, #ef5350);
+      --color-error-bg: light-dark(#fbe9e7, #3a1b1b);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-ink);
+      background-color: var(--color-parchment);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-4);
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-ink);
+      color: var(--color-parchment);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      z-index: 9999;
+      transition: top var(--duration-fast) var(--ease-out);
+    }
+
+    .skip-link:focus {
+      top: 0;
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    /* ── Navigation ── */
+    .site-nav {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: var(--color-parchment);
+    }
+
+    .site-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: var(--space-8);
+    }
+
+    .site-nav a {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-ink-secondary);
+      text-decoration: none;
+      padding: var(--space-2) var(--space-1);
+      transition: color var(--duration-fast) var(--ease-out);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .site-nav a:hover {
+      color: var(--color-accent);
+    }
+
+    .site-nav a[aria-current="page"] {
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-accent);
+    }
+
+    /* ── Form Page ── */
+    .publish-section {
+      padding: var(--space-16) 0 var(--space-24);
+    }
+
+    .publish-header {
+      text-align: center;
+      margin-bottom: var(--space-12);
+    }
+
+    .publish-header__title {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 400;
+      color: var(--color-ink);
+      margin: 0 0 var(--space-2);
+    }
+
+    .publish-header__subtitle {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-style: italic;
+      color: var(--color-ink-secondary);
+      margin: 0;
+    }
+
+    /* ── Form ── */
+    .publish-form {
+      background: var(--color-parchment-warm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8) var(--space-6);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 576px) {
+      .publish-form {
+        padding: var(--space-12) var(--space-8);
+      }
+    }
+
+    .form-group {
+      margin-bottom: var(--space-6);
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-ink-secondary);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-group .form-hint {
+      display: block;
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--color-ink-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="password"],
+    .form-group textarea {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--color-ink);
+      background: var(--color-parchment);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out);
+      min-height: 44px;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px var(--color-accent-subtle);
+      outline: none;
+    }
+
+    .form-group textarea {
+      min-height: 320px;
+      resize: vertical;
+    }
+
+    .form-group input[aria-invalid="true"],
+    .form-group textarea[aria-invalid="true"] {
+      border-color: var(--color-error);
+    }
+
+    .form-group .form-error {
+      display: none;
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--color-error);
+      margin-top: var(--space-2);
+    }
+
+    .form-group .form-error[aria-live] {
+      display: block;
+    }
+
+    /* ── Buttons ── */
+    .btn-publish {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+      min-height: 48px;
+      padding: var(--space-3) var(--space-6);
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-parchment);
+      background: var(--color-ink);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  transform var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-publish:hover {
+      background: var(--color-accent);
+    }
+
+    .btn-publish:active {
+      transform: scale(0.98);
+    }
+
+    .btn-publish:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .btn-publish:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn-publish:active {
+        transform: none;
+      }
+    }
+
+    /* ── Status Messages ── */
+    .form-status {
+      margin-top: var(--space-6);
+      padding: var(--space-4) var(--space-6);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      display: none;
+    }
+
+    .form-status--success {
+      display: block;
+      background: var(--color-success-bg);
+      color: var(--color-success);
+      border: 1px solid var(--color-success);
+    }
+
+    .form-status--error {
+      display: block;
+      background: var(--color-error-bg);
+      color: var(--color-error);
+      border: 1px solid var(--color-error);
+    }
+
+    /* ── Preview ── */
+    .preview-section {
+      margin-top: var(--space-8);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    .preview-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-ink-muted);
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .preview-card {
+      background: var(--color-parchment);
+      border: 1px dashed var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8) var(--space-6);
+      text-align: center;
+      min-height: 200px;
+    }
+
+    .preview-card__title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 500;
+      color: var(--color-ink);
+      margin: 0 0 var(--space-2);
+    }
+
+    .preview-card__dedication {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-style: italic;
+      color: var(--color-ink-secondary);
+      margin: 0 0 var(--space-4);
+    }
+
+    .preview-card__stanza {
+      margin-bottom: var(--space-4);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.9;
+      color: var(--color-ink);
+    }
+
+    .preview-card__stanza span {
+      display: block;
+    }
+
+    .preview-placeholder {
+      color: var(--color-ink-muted);
+      font-style: italic;
+      font-family: var(--font-display);
+      padding: var(--space-8) 0;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      text-align: center;
+      padding: var(--space-8) var(--space-4);
+      border-top: 1px solid var(--color-border);
+      background: var(--color-parchment-warm);
+    }
+
+    .footer-ornament {
+      font-size: var(--text-sm);
+      color: var(--color-accent);
+      letter-spacing: 0.5em;
+      opacity: 0.4;
+      margin-bottom: var(--space-3);
+    }
+
+    .site-footer p {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      color: var(--color-ink-muted);
+      margin: 0;
+      letter-spacing: 0.05em;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Verse counter ── */
+    .verse-counter {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      text-align: right;
+      margin-top: var(--space-1);
+      color: var(--color-ink-muted);
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .verse-counter--valid {
+      color: var(--color-success);
+    }
+
+    .verse-counter--invalid {
+      color: var(--color-error);
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- Navigation -->
+  <nav class="site-nav" aria-label="Principal">
+    <ul>
+      <li><a href="index.html">Sonetos</a></li>
+      <li><a href="publish.html" aria-current="page">Publicar</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <section class="publish-section" aria-labelledby="publish-heading">
+      <div class="publish-header">
+        <h1 id="publish-heading" class="publish-header__title">Publicar Soneto</h1>
+        <p class="publish-header__subtitle">Escribe o pega un soneto de 14 versos</p>
+      </div>
+
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-10 col-lg-8">
+            <form id="sonnetForm" class="publish-form" novalidate>
+
+              <!-- Password -->
+              <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  autocomplete="current-password"
+                  aria-describedby="password-hint"
+                >
+                <span class="form-hint" id="password-hint">Contraseña de publicación</span>
+              </div>
+
+              <!-- Title -->
+              <div class="form-group">
+                <label for="title">Título del soneto</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  required
+                  maxlength="200"
+                  aria-describedby="title-error"
+                >
+                <div class="form-error" id="title-error" role="alert"></div>
+              </div>
+
+              <!-- Dedication -->
+              <div class="form-group">
+                <label for="dedication">
+                  Dedicatoria
+                  <span class="form-hint" style="display:inline; text-transform:none; letter-spacing:0; font-weight:400;">(opcional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="dedication"
+                  name="dedication"
+                  maxlength="200"
+                >
+              </div>
+
+              <!-- Sonnet body -->
+              <div class="form-group">
+                <label for="sonnet">Soneto</label>
+                <span class="form-hint" id="sonnet-hint">14 versos, uno por línea. Dos cuartetos (4+4) y dos tercetos (3+3).</span>
+                <textarea
+                  id="sonnet"
+                  name="sonnet"
+                  required
+                  aria-describedby="sonnet-hint verse-count sonnet-error"
+                ></textarea>
+                <div class="verse-counter" id="verse-count" aria-live="polite">0 / 14 versos</div>
+                <div class="form-error" id="sonnet-error" role="alert"></div>
+              </div>
+
+              <!-- Submit -->
+              <button type="submit" class="btn-publish" id="submit-btn">
+                <i class="fas fa-feather-alt" aria-hidden="true"></i>
+                Publicar Soneto
+              </button>
+
+              <!-- Status -->
+              <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+            </form>
+
+            <!-- Live Preview -->
+            <div class="preview-section" aria-labelledby="preview-heading">
+              <h2 id="preview-heading" class="preview-heading">Vista previa</h2>
+              <div class="preview-card" id="preview-card" aria-live="polite">
+                <p class="preview-placeholder" id="preview-placeholder">
+                  La vista previa se mostrará aquí al escribir el soneto.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-ornament" aria-hidden="true">◆</div>
+    <p>Sonetos de Álvaro García</p>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var form = document.getElementById('sonnetForm');
+      var titleInput = document.getElementById('title');
+      var dedicationInput = document.getElementById('dedication');
+      var sonnetTextarea = document.getElementById('sonnet');
+      var verseCounter = document.getElementById('verse-count');
+      var previewCard = document.getElementById('preview-card');
+      var previewPlaceholder = document.getElementById('preview-placeholder');
+      var formStatus = document.getElementById('form-status');
+      var submitBtn = document.getElementById('submit-btn');
+
+      /**
+       * Escape HTML to prevent XSS.
+       */
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      /**
+       * Count non-empty lines in the sonnet textarea.
+       */
+      function getVerses() {
+        return sonnetTextarea.value
+          .split('\n')
+          .filter(function (l) { return l.trim().length > 0; });
+      }
+
+      /**
+       * Update the verse counter and styling.
+       */
+      function updateVerseCounter() {
+        var count = getVerses().length;
+        verseCounter.textContent = count + ' / 14 versos';
+
+        verseCounter.classList.remove('verse-counter--valid', 'verse-counter--invalid');
+        if (count === 14) {
+          verseCounter.classList.add('verse-counter--valid');
+        } else if (count > 14) {
+          verseCounter.classList.add('verse-counter--invalid');
+        }
+      }
+
+      /**
+       * Update the live preview card.
+       */
+      function updatePreview() {
+        var title = titleInput.value.trim();
+        var dedication = dedicationInput.value.trim();
+        var verses = getVerses();
+
+        if (!title && verses.length === 0) {
+          previewPlaceholder.hidden = false;
+          // Clear any previous preview content (but keep placeholder)
+          var existing = previewCard.querySelectorAll('.preview-card__title, .preview-card__dedication, .preview-card__stanza');
+          existing.forEach(function (el) { el.remove(); });
+          return;
+        }
+
+        previewPlaceholder.hidden = true;
+
+        // Clear old preview
+        var old = previewCard.querySelectorAll('.preview-card__title, .preview-card__dedication, .preview-card__stanza');
+        old.forEach(function (el) { el.remove(); });
+
+        // Build preview
+        if (title) {
+          var h = document.createElement('h3');
+          h.className = 'preview-card__title';
+          h.textContent = title;
+          previewCard.insertBefore(h, previewPlaceholder);
+        }
+
+        if (dedication) {
+          var d = document.createElement('p');
+          d.className = 'preview-card__dedication';
+          d.textContent = dedication;
+          previewCard.insertBefore(d, previewPlaceholder);
+        }
+
+        // Split into stanzas: 4, 4, 3, 3
+        var stanzaSlices = [
+          verses.slice(0, 4),
+          verses.slice(4, 8),
+          verses.slice(8, 11),
+          verses.slice(11, 14)
+        ];
+
+        stanzaSlices.forEach(function (stanza) {
+          if (stanza.length === 0) return;
+          var div = document.createElement('div');
+          div.className = 'preview-card__stanza';
+          stanza.forEach(function (verse) {
+            var span = document.createElement('span');
+            span.textContent = verse;
+            div.appendChild(span);
+          });
+          previewCard.insertBefore(div, previewPlaceholder);
+        });
+      }
+
+      // Live updates
+      sonnetTextarea.addEventListener('input', function () {
+        updateVerseCounter();
+        updatePreview();
+      });
+
+      titleInput.addEventListener('input', updatePreview);
+      dedicationInput.addEventListener('input', updatePreview);
+
+      /**
+       * Clear validation state.
+       */
+      function clearErrors() {
+        var errors = form.querySelectorAll('.form-error');
+        errors.forEach(function (el) {
+          el.textContent = '';
+          el.removeAttribute('aria-live');
+        });
+
+        var inputs = form.querySelectorAll('[aria-invalid]');
+        inputs.forEach(function (el) {
+          el.removeAttribute('aria-invalid');
+        });
+
+        formStatus.className = 'form-status';
+        formStatus.textContent = '';
+      }
+
+      /**
+       * Show a field-level error.
+       */
+      function showFieldError(inputEl, errorEl, message) {
+        inputEl.setAttribute('aria-invalid', 'true');
+        errorEl.setAttribute('aria-live', 'assertive');
+        errorEl.textContent = message;
+      }
+
+      /**
+       * Submit form.
+       */
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        clearErrors();
+
+        var password = document.getElementById('password').value;
+        var title = titleInput.value.trim();
+        var dedication = dedicationInput.value.trim();
+        var verses = getVerses();
+
+        // Validation
+        var hasError = false;
+
+        if (!title) {
+          showFieldError(titleInput, document.getElementById('title-error'), 'El título es obligatorio.');
+          hasError = true;
+        }
+
+        if (verses.length !== 14) {
+          showFieldError(
+            sonnetTextarea,
+            document.getElementById('sonnet-error'),
+            'El soneto debe tener exactamente 14 versos. Tiene ' + verses.length + '.'
+          );
+          hasError = true;
+        }
+
+        if (!password) {
+          hasError = true;
+        }
+
+        if (hasError) {
+          // Focus first invalid field
+          var firstInvalid = form.querySelector('[aria-invalid="true"]');
+          if (firstInvalid) firstInvalid.focus();
+          return;
+        }
+
+        // Disable button during submission
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Publicando…';
+
+        try {
+          var res = await fetch('/api/publish', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              password: password,
+              title: title,
+              dedication: dedication,
+              sonnet: sonnetTextarea.value.trim()
+            })
+          });
+
+          if (res.ok) {
+            formStatus.className = 'form-status form-status--success';
+            formStatus.textContent = '¡Soneto publicado! Aparecerá en la web en unos minutos.';
+            form.reset();
+            updateVerseCounter();
+            updatePreview();
+          } else {
+            var errText = await res.text();
+            formStatus.className = 'form-status form-status--error';
+            formStatus.textContent = 'Error: ' + errText;
+          }
+        } catch (err) {
+          formStatus.className = 'form-status form-status--error';
+          formStatus.textContent = 'Error de conexión. Inténtalo de nuevo.';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-feather-alt" aria-hidden="true"></i> Publicar Soneto';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

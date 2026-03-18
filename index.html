@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Álvaro García — Sonetos</title>
+  <meta name="description" content="Colección de sonetos de Álvaro García. Poesía en verso clásico.">
+
+  <!-- Preload critical fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome 5.15.4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    /* ══════════════════════════════════════════
+       DESIGN TOKENS
+       ══════════════════════════════════════════ */
+    :root {
+      color-scheme: light dark;
+
+      /* ── Typography ── */
+      --font-display: 'Cormorant Garamond', 'Georgia', serif;
+      --font-body: 'Libre Baskerville', 'Georgia', serif;
+
+      --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+      --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+      --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+      --text-lg: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+      --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+      --text-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+      --text-3xl: clamp(1.8rem, 1.4rem + 2vw, 2.5rem);
+      --text-4xl: clamp(2.2rem, 1.6rem + 3vw, 3.5rem);
+      --text-5xl: clamp(2.8rem, 1.8rem + 5vw, 5rem);
+
+      /* ── Spacing ── */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-24: 6rem;
+
+      /* ── Border Radii ── */
+      --radius-sm: 0.25rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 1rem;
+
+      /* ── Shadows ── */
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.06);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.08);
+
+      /* ── Motion ── */
+      --duration-fast: 150ms;
+      --duration-normal: 250ms;
+      --duration-slow: 400ms;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+      /* ── Colors (Parchment & Ink) ── */
+      --color-ink: light-dark(#1a1410, #ede8e0);
+      --color-ink-secondary: light-dark(#5c5347, #b0a899);
+      --color-ink-muted: light-dark(#8a8278, #7a7368);
+      --color-parchment: light-dark(#faf6f0, #171310);
+      --color-parchment-warm: light-dark(#f5efe5, #1e1a15);
+      --color-parchment-deep: light-dark(#ebe4d8, #252019);
+      --color-accent: light-dark(#8b4513, #d4a76a);
+      --color-accent-hover: light-dark(#6b3410, #e0bb82);
+      --color-accent-subtle: light-dark(rgba(139,69,19,0.08), rgba(212,167,106,0.12));
+      --color-border: light-dark(#e0d8cc, #2e2821);
+      --color-border-subtle: light-dark(#ede8e0, #222019);
+      --color-divider: light-dark(#c8bfb2, #3a332b);
+      --color-focus: light-dark(#5b7bb5, #8aa8d8);
+    }
+
+    /* ══════════════════════════════════════════
+       BASE STYLES
+       ══════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-ink);
+      background-color: var(--color-parchment);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Skip Link (WCAG 2.4.1) ── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-4);
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-ink);
+      color: var(--color-parchment);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      z-index: 9999;
+      transition: top var(--duration-fast) var(--ease-out);
+    }
+
+    .skip-link:focus {
+      top: 0;
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    /* ── Focus Indicators (WCAG 2.4.7) ── */
+    :focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ══════════════════════════════════════════
+       HEADER / BANNER
+       ══════════════════════════════════════════ */
+    .site-header {
+      text-align: center;
+      padding: var(--space-24) var(--space-4) var(--space-16);
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-parchment-warm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, var(--color-accent-subtle), transparent 50%),
+        radial-gradient(ellipse at 80% 50%, var(--color-accent-subtle), transparent 50%);
+      pointer-events: none;
+    }
+
+    .header-ornament {
+      display: block;
+      margin: 0 auto var(--space-6);
+      font-size: var(--text-2xl);
+      color: var(--color-accent);
+      letter-spacing: 0.5em;
+      opacity: 0.5;
+    }
+
+    .site-title {
+      font-family: var(--font-display);
+      font-size: var(--text-5xl);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--color-ink);
+      margin: 0 0 var(--space-3);
+      line-height: 1.15;
+      position: relative;
+    }
+
+    .site-subtitle {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--color-ink-secondary);
+      margin: 0;
+      letter-spacing: 0.06em;
+    }
+
+    .header-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--color-accent);
+      border: none;
+      margin: var(--space-8) auto 0;
+      opacity: 0.6;
+    }
+
+    /* ══════════════════════════════════════════
+       NAVIGATION
+       ══════════════════════════════════════════ */
+    .site-nav {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: var(--color-parchment);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .site-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: var(--space-8);
+    }
+
+    .site-nav a {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-ink-secondary);
+      text-decoration: none;
+      padding: var(--space-2) var(--space-1);
+      transition: color var(--duration-fast) var(--ease-out);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .site-nav a:hover {
+      color: var(--color-accent);
+    }
+
+    .site-nav a[aria-current="page"] {
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-accent);
+    }
+
+    /* ══════════════════════════════════════════
+       MAIN CONTENT
+       ══════════════════════════════════════════ */
+    .sonnets-section {
+      padding: var(--space-16) 0 var(--space-24);
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--color-ink-muted);
+      text-align: center;
+      margin-bottom: var(--space-12);
+    }
+
+    /* ── Sonnet Cards ── */
+    .sonnet-card {
+      background: var(--color-parchment-warm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8) var(--space-6);
+      transition:
+        box-shadow var(--duration-normal) var(--ease-out),
+        transform var(--duration-normal) var(--ease-out);
+      position: relative;
+      container-type: inline-size;
+      container-name: sonnet;
+    }
+
+    .sonnet-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sonnet-card:hover {
+        transform: none;
+      }
+    }
+
+    .sonnet-card__header {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .sonnet-card__title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 500;
+      color: var(--color-ink);
+      margin: 0 0 var(--space-2);
+      line-height: 1.3;
+    }
+
+    .sonnet-card__dedication {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-style: italic;
+      color: var(--color-ink-secondary);
+      margin: 0;
+    }
+
+    .sonnet-card__divider {
+      width: 30px;
+      height: 1px;
+      background: var(--color-divider);
+      border: none;
+      margin: var(--space-4) auto;
+    }
+
+    .sonnet-card__stanza {
+      text-align: center;
+      margin-bottom: var(--space-6);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.9;
+      color: var(--color-ink);
+    }
+
+    .sonnet-card__stanza:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .sonnet-card__verse {
+      display: block;
+    }
+
+    .sonnet-card__footer {
+      text-align: center;
+      margin-top: var(--space-6);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    .sonnet-card__date {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-ink-muted);
+    }
+
+    /* Container query: wider cards get horizontal padding */
+    @container sonnet (min-width: 500px) {
+      .sonnet-card {
+        padding: var(--space-12) var(--space-16);
+      }
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      text-align: center;
+      padding: var(--space-16) var(--space-4);
+      color: var(--color-ink-muted);
+    }
+
+    .empty-state__icon {
+      font-size: var(--text-4xl);
+      margin-bottom: var(--space-4);
+      opacity: 0.3;
+    }
+
+    .empty-state__text {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-style: italic;
+    }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+       ══════════════════════════════════════════ */
+    .site-footer {
+      text-align: center;
+      padding: var(--space-8) var(--space-4);
+      border-top: 1px solid var(--color-border);
+      background: var(--color-parchment-warm);
+    }
+
+    .footer-ornament {
+      font-size: var(--text-sm);
+      color: var(--color-accent);
+      letter-spacing: 0.5em;
+      opacity: 0.4;
+      margin-bottom: var(--space-3);
+    }
+
+    .site-footer p {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      color: var(--color-ink-muted);
+      margin: 0;
+      letter-spacing: 0.05em;
+    }
+
+    /* ══════════════════════════════════════════
+       LOADING ANIMATION
+       ══════════════════════════════════════════ */
+    @media (prefers-reduced-motion: no-preference) {
+      .sonnet-card {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp var(--duration-slow) var(--ease-out) forwards;
+      }
+
+      .sonnet-card:nth-child(1) { animation-delay: 0ms; }
+      .sonnet-card:nth-child(2) { animation-delay: 100ms; }
+      .sonnet-card:nth-child(3) { animation-delay: 200ms; }
+      .sonnet-card:nth-child(4) { animation-delay: 300ms; }
+      .sonnet-card:nth-child(5) { animation-delay: 400ms; }
+      .sonnet-card:nth-child(6) { animation-delay: 500ms; }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+       ══════════════════════════════════════════ */
+    @media (max-width: 575.98px) {
+      .site-header {
+        padding: var(--space-12) var(--space-4) var(--space-8);
+      }
+
+      .sonnet-card {
+        padding: var(--space-6) var(--space-4);
+      }
+
+      .site-nav ul {
+        gap: var(--space-4);
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       ARIA LIVE REGION (status updates)
+       ══════════════════════════════════════════ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip Link (WCAG 2.4.1) -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- Banner Landmark -->
+  <header class="site-header" role="banner">
+    <span class="header-ornament" aria-hidden="true">· · ·</span>
+    <h1 class="site-title">Álvaro García</h1>
+    <p class="site-subtitle">Sonetos</p>
+    <hr class="header-rule" aria-hidden="true">
+  </header>
+
+  <!-- Navigation Landmark -->
+  <nav class="site-nav" aria-label="Principal">
+    <ul>
+      <li><a href="index.html" aria-current="page">Sonetos</a></li>
+      <li><a href="publish.html">Publicar</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Landmark -->
+  <main id="main-content">
+    <section class="sonnets-section" aria-labelledby="sonnets-heading">
+      <h2 id="sonnets-heading" class="section-heading">Colección</h2>
+
+      <!-- Status region for dynamic content updates -->
+      <div aria-live="polite" aria-atomic="true" class="sr-only" id="sonnets-status"></div>
+
+      <div class="container">
+        <div class="row g-4 g-lg-5 justify-content-center" id="sonnets-grid">
+          <!-- Sonnet cards are inserted here by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Empty state (shown when no sonnets loaded) -->
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-state__icon" aria-hidden="true">
+          <i class="fas fa-feather-alt"></i>
+        </div>
+        <p class="empty-state__text">Aún no hay sonetos publicados.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Contentinfo Landmark -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-ornament" aria-hidden="true">◆</div>
+    <p>Sonetos de Álvaro García</p>
+  </footer>
+
+  <script>
+    /* ══════════════════════════════════════════
+       SONNET LOADER
+       ══════════════════════════════════════════ */
+    (function () {
+      'use strict';
+
+      const grid = document.getElementById('sonnets-grid');
+      const emptyState = document.getElementById('empty-state');
+      const statusRegion = document.getElementById('sonnets-status');
+
+      /**
+       * Format a date string (YYYY-MM-DD) into a readable Spanish date.
+       */
+      function formatDate(dateStr) {
+        const months = [
+          'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+          'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+        ];
+        const parts = dateStr.split('-');
+        const day = parseInt(parts[2], 10);
+        const month = months[parseInt(parts[1], 10) - 1];
+        const year = parts[0];
+        return day + ' de ' + month + ' de ' + year;
+      }
+
+      /**
+       * Escape HTML to prevent XSS from sonnet content.
+       */
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+      }
+
+      /**
+       * Create a single stanza element from an array of verse lines.
+       */
+      function createStanza(verses, label) {
+        var stanza = document.createElement('div');
+        stanza.className = 'sonnet-card__stanza';
+        stanza.setAttribute('aria-label', label);
+
+        verses.forEach(function (verse) {
+          var span = document.createElement('span');
+          span.className = 'sonnet-card__verse';
+          span.textContent = verse;
+          stanza.appendChild(span);
+        });
+
+        return stanza;
+      }
+
+      /**
+       * Build a sonnet card article element.
+       */
+      function createSonnetCard(sonnet) {
+        var col = document.createElement('div');
+        col.className = 'col-12 col-lg-10 col-xl-8';
+
+        var article = document.createElement('article');
+        article.className = 'sonnet-card';
+        article.setAttribute('aria-label', 'Soneto: ' + sonnet.title);
+
+        // Header
+        var header = document.createElement('div');
+        header.className = 'sonnet-card__header';
+
+        var title = document.createElement('h3');
+        title.className = 'sonnet-card__title';
+        title.textContent = sonnet.title;
+        header.appendChild(title);
+
+        if (sonnet.dedication) {
+          var dedication = document.createElement('p');
+          dedication.className = 'sonnet-card__dedication';
+          dedication.textContent = sonnet.dedication;
+          header.appendChild(dedication);
+        }
+
+        article.appendChild(header);
+
+        // Divider
+        var divider = document.createElement('hr');
+        divider.className = 'sonnet-card__divider';
+        divider.setAttribute('aria-hidden', 'true');
+        article.appendChild(divider);
+
+        // Stanzas
+        var stanzaNames = [
+          ['cuarteto1', 'Primer cuarteto'],
+          ['cuarteto2', 'Segundo cuarteto'],
+          ['terceto1', 'Primer terceto'],
+          ['terceto2', 'Segundo terceto']
+        ];
+
+        stanzaNames.forEach(function (pair) {
+          if (sonnet[pair[0]] && sonnet[pair[0]].length > 0) {
+            article.appendChild(createStanza(sonnet[pair[0]], pair[1]));
+          }
+        });
+
+        // Footer
+        if (sonnet.date) {
+          var footer = document.createElement('div');
+          footer.className = 'sonnet-card__footer';
+
+          var time = document.createElement('time');
+          time.className = 'sonnet-card__date';
+          time.setAttribute('datetime', sonnet.date);
+          time.textContent = formatDate(sonnet.date);
+          footer.appendChild(time);
+
+          article.appendChild(footer);
+        }
+
+        col.appendChild(article);
+        return col;
+      }
+
+      /**
+       * Load and render sonnets.
+       */
+      async function loadSonnets() {
+        try {
+          var response = await fetch('sonnets/index.json');
+          if (!response.ok) throw new Error('No se pudo cargar');
+
+          var sonnets = await response.json();
+
+          // Sort newest first
+          sonnets.sort(function (a, b) {
+            return b.date.localeCompare(a.date);
+          });
+
+          if (sonnets.length === 0) {
+            emptyState.hidden = false;
+            statusRegion.textContent = 'No hay sonetos publicados.';
+            return;
+          }
+
+          var fragment = document.createDocumentFragment();
+          sonnets.forEach(function (sonnet) {
+            fragment.appendChild(createSonnetCard(sonnet));
+          });
+
+          grid.appendChild(fragment);
+          statusRegion.textContent = sonnets.length + ' sonetos cargados.';
+        } catch (err) {
+          emptyState.hidden = false;
+          statusRegion.textContent = 'No hay sonetos publicados.';
+        }
+      }
+
+      loadSonnets();
+    })();
+  </script>
+</body>
+</html>

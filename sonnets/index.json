@@ -1,0 +1,86 @@
+[
+  {
+    "title": "A la rosa efímera",
+    "slug": "a-la-rosa-efimera",
+    "date": "2026-03-15",
+    "dedication": null,
+    "cuarteto1": [
+      "Naciste con el alba estremecida,",
+      "entre el rocío y la primera estrella,",
+      "tan breve como hermosa, tan aquella",
+      "que nunca sabrá el mundo tu medida."
+    ],
+    "cuarteto2": [
+      "Tu pétalos de seda, tu encendida",
+      "corona de carmín, tu forma bella,",
+      "son rastro de una luz, son una huella",
+      "que el viento borra y que el jardín olvida."
+    ],
+    "terceto1": [
+      "Y sin embargo, rosa, en tu caída",
+      "se cuenta más que en la eternal presencia",
+      "de aquellas piedras duras y sin vida."
+    ],
+    "terceto2": [
+      "Porque en tu breve y frágil existencia",
+      "cabe todo el misterio de la herida",
+      "que abre en el alma entera tu hermosura."
+    ]
+  },
+  {
+    "title": "Memoria del silencio",
+    "slug": "memoria-del-silencio",
+    "date": "2026-03-10",
+    "dedication": "A mi padre",
+    "cuarteto1": [
+      "Hay un silencio denso que se instala",
+      "en la casa vacía cada tarde,",
+      "un eco que se apaga sin que nadie",
+      "pueda impedir que el tiempo lo resbala."
+    ],
+    "cuarteto2": [
+      "Tu silla junto al fuego ya no exhala",
+      "aquel calor que dábamos por dado,",
+      "y el libro que dejaste abandonado",
+      "guarda la última página sin ala."
+    ],
+    "terceto1": [
+      "Aprendo que el silencio no es ausencia",
+      "sino la forma en que los muertos hablan",
+      "cuando callan las voces de la urgencia."
+    ],
+    "terceto2": [
+      "Y en ese hueco donde ya no labran",
+      "tus manos el cariño y la paciencia,",
+      "crecen las flores que tu amor sembraba."
+    ]
+  },
+  {
+    "title": "Soneto al mar de octubre",
+    "slug": "soneto-al-mar-de-octubre",
+    "date": "2026-02-28",
+    "dedication": null,
+    "cuarteto1": [
+      "El mar de octubre tiene la tristeza",
+      "de lo que sabe que se va apagando,",
+      "la luz oblicua que se va quebrando",
+      "sobre la espuma gris de su pereza."
+    ],
+    "cuarteto2": [
+      "Ya no hay la furia azul de su grandeza",
+      "ni aquel verano que se fue cantando,",
+      "queda un rumor de olas suspirando",
+      "contra las rocas de la fortaleza."
+    ],
+    "terceto1": [
+      "Y yo contemplo el mar desde la orilla",
+      "como quien mira un rostro que envejece",
+      "con la serena paz de lo sencillo."
+    ],
+    "terceto2": [
+      "Que en cada ola que se desvanece",
+      "se lleva el mar aquello que más brilla",
+      "y nos devuelve lo que permanece."
+    ]
+  }
+]
