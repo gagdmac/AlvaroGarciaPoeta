@@ -264,6 +264,32 @@
       margin-bottom: var(--space-12);
     }
 
+    /* ── Masonry Grid ── */
+    .masonry-grid {
+      column-count: 2;
+      column-gap: 1.5rem;
+    }
+
+    .masonry-grid > .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 767.98px) {
+      .masonry-grid {
+        column-count: 1;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .masonry-grid {
+        column-gap: 2rem;
+      }
+      .masonry-grid > .masonry-item {
+        margin-bottom: 2rem;
+      }
+    }
+
     /* ── Sonnet Cards ── */
     .sonnet-card {
       background: var(--color-parchment-warm);
@@ -490,7 +516,7 @@
       <div aria-live="polite" aria-atomic="true" class="sr-only" id="sonnets-status"></div>
 
       <div class="container">
-        <div class="row g-4 g-lg-5 justify-content-center" id="sonnets-grid">
+        <div class="masonry-grid" id="sonnets-grid">
           <!-- Sonnet cards are inserted here by JavaScript -->
         </div>
       </div>
@@ -572,7 +598,7 @@
        */
       function createSonnetCard(sonnet) {
         var col = document.createElement('div');
-        col.className = 'col-12 col-lg-10 col-xl-8';
+        col.className = 'masonry-item';
 
         var article = document.createElement('article');
         article.className = 'sonnet-card';
