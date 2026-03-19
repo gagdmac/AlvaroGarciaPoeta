@@ -1,12 +1,14 @@
-@charset "UTF-8";
-/*REM*/
+@use 'tools/tools' as *;
+
 /* ══════════════════════════════════════════
    DESIGN TOKENS — Editorial Noir
    ══════════════════════════════════════════ */
 :root {
   color-scheme: light dark;
+
   --font-display: 'Playfair Display', 'Georgia', serif;
   --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+
   --_font-scale: 1;
   --text-xs: calc(var(--_font-scale) * clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem));
   --text-sm: calc(var(--_font-scale) * clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem));
@@ -18,6 +20,7 @@
   --text-4xl: calc(var(--_font-scale) * clamp(2.4rem, 1.8rem + 3vw, 3.8rem));
   --text-5xl: calc(var(--_font-scale) * clamp(3rem, 2rem + 5vw, 5.5rem));
   --text-6xl: calc(var(--_font-scale) * clamp(3.5rem, 2.2rem + 6.5vw, 7rem));
+
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -29,18 +32,22 @@
   --space-20: 5rem;
   --space-24: 6rem;
   --space-32: 8rem;
-  --radius-sm: 0.125rem;
-  --radius-md: 0.25rem;
-  --radius-lg: 0.5rem;
-  --shadow-sm: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 1.25rem 3.75rem rgba(0, 0, 0, 0.12);
+
+  --radius-sm: #{rem-calc(2)};
+  --radius-md: #{rem-calc(4)};
+  --radius-lg: #{rem-calc(8)};
+
+  --shadow-sm: 0 #{rem-calc(1)} #{rem-calc(2)} rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 #{rem-calc(4)} #{rem-calc(20)} rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 #{rem-calc(12)} #{rem-calc(40)} rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 #{rem-calc(20)} #{rem-calc(60)} rgba(0, 0, 0, 0.12);
+
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-slow: 500ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
   /* ── Colors — Warm Ivory & Deep Charcoal ── */
   --color-bg: light-dark(#f8f5f0, #0e0e0e);
   --color-bg-alt: light-dark(#ffffff, #161616);
@@ -63,6 +70,7 @@
   --color-success-bg: light-dark(#e8f5e9, #1b3a1e);
   --color-error: light-dark(#c62828, #ef5350);
   --color-error-bg: light-dark(#fbe9e7, #3a1b1b);
+
   /* ── Legacy aliases for a11y-options.js ── */
   --color-parchment: var(--color-bg);
   --color-parchment-warm: var(--color-surface);
@@ -105,17 +113,18 @@ body {
   border-radius: 0 0 var(--radius-md) var(--radius-md);
   z-index: 9999;
   transition: top var(--duration-fast) var(--ease-out);
-}
-.skip-link:focus {
-  top: 0;
-  outline: 0.125rem solid var(--color-focus);
-  outline-offset: 0.125rem;
+
+  &:focus {
+    top: 0;
+    outline: #{rem-calc(2)} solid var(--color-focus);
+    outline-offset: #{rem-calc(2)};
+  }
 }
 
 /* ── Focus ── */
 :focus-visible {
-  outline: 0.125rem solid var(--color-focus);
-  outline-offset: 0.125rem;
+  outline: #{rem-calc(2)} solid var(--color-focus);
+  outline-offset: #{rem-calc(2)};
 }
 
 /* ══════════════════════════════════════════
@@ -126,9 +135,9 @@ body {
   top: 0;
   z-index: 100;
   background: var(--color-bg);
-  border-bottom: 0.0625rem solid var(--color-border);
-  backdrop-filter: blur(0.75rem);
-  -webkit-backdrop-filter: blur(0.75rem);
+  border-bottom: #{rem-calc(1)} solid var(--color-border);
+  backdrop-filter: blur(#{rem-calc(12)});
+  -webkit-backdrop-filter: blur(#{rem-calc(12)});
 }
 
 .site-nav__inner {
@@ -137,10 +146,11 @@ body {
   align-items: center;
   gap: var(--space-8);
   padding: 0 var(--space-4);
-  min-height: 3.25rem;
-}
-.a11y-font-200 .site-nav__inner {
-  padding: var(--space-2) var(--space-6);
+  min-height: rem-calc(52);
+
+  .a11y-font-200 & {
+    padding: var(--space-2) var(--space-6);
+  }
 }
 
 .site-nav a {
@@ -152,35 +162,40 @@ body {
   color: var(--color-ink-secondary);
   text-decoration: none;
   padding: var(--space-3) var(--space-2);
-  min-height: 2.75rem;
+  min-height: rem-calc(44);
   display: inline-flex;
   align-items: center;
   position: relative;
   transition: color var(--duration-fast) var(--ease-out);
-}
-.site-nav a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0.0625rem;
-  background: var(--color-accent);
-  transition: width var(--duration-normal) var(--ease-out), left var(--duration-normal) var(--ease-out);
-}
-.site-nav a:hover {
-  color: var(--color-ink);
-}
-.site-nav a:hover::after {
-  width: 100%;
-  left: 0;
-}
-.site-nav a[aria-current=page] {
-  color: var(--color-ink);
-}
-.site-nav a[aria-current=page]::after {
-  width: 100%;
-  left: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: #{rem-calc(1)};
+    background: var(--color-accent);
+    transition: width var(--duration-normal) var(--ease-out), left var(--duration-normal) var(--ease-out);
+  }
+
+  &:hover {
+    color: var(--color-ink);
+
+    &::after {
+      width: 100%;
+      left: 0;
+    }
+  }
+
+  &[aria-current='page'] {
+    color: var(--color-ink);
+
+    &::after {
+      width: 100%;
+      left: 0;
+    }
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -189,7 +204,7 @@ body {
 .site-footer {
   text-align: center;
   padding: var(--space-12) var(--space-4);
-  border-top: 0.0625rem solid var(--color-border);
+  border-top: #{rem-calc(1)} solid var(--color-border);
 }
 
 .site-footer__text {
@@ -205,10 +220,10 @@ body {
 /* ── Utilities ── */
 .sr-only {
   position: absolute;
-  width: 0.0625rem;
-  height: 0.0625rem;
+  width: #{rem-calc(1)};
+  height: #{rem-calc(1)};
   padding: 0;
-  margin: -0.0625rem;
+  margin: #{rem-calc(-1)};
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
@@ -218,7 +233,7 @@ body {
 /* ══════════════════════════════════════════
    RESPONSIVE — Shared
    ══════════════════════════════════════════ */
-@media (max-width: 575px) {
+@include respond-below(xs) {
   .site-nav__inner {
     gap: var(--space-4);
   }
