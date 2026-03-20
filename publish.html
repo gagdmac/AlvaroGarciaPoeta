@@ -41,13 +41,8 @@
   <!-- Page Gate — shown until password is validated -->
   <div id="page-gate" class="page-gate" role="dialog" aria-modal="true" aria-labelledby="gate-heading">
     <div class="page-gate__inner">
-      <div class="page-gate__emblem-row">
-        <button type="button" class="page-gate__a11y-trigger" aria-label="Opciones de accesibilidad" id="gate-a11y-trigger">
-          <i class="fas fa-universal-access" aria-hidden="true"></i>
-        </button>
-        <div class="page-gate__emblem" aria-hidden="true">
-          <i class="fas fa-lock"></i>
-        </div>
+      <div class="page-gate__emblem" aria-hidden="true">
+        <i class="fas fa-lock"></i>
       </div>
       <span class="page-gate__overline" aria-hidden="true">Acceso restringido</span>
       <h1 id="gate-heading" class="page-gate__title"><em>Publicar Soneto</em></h1>
@@ -247,27 +242,6 @@
     });
   </script>
 
-  <!-- Gate A11y Trigger → opens a11y panel -->
-  <script>
-    document.getElementById('gate-a11y-trigger').addEventListener('click', function () {
-      // Try exposed toggle first, fallback to nav trigger click
-      if (typeof window.__a11yTogglePanel === 'function') {
-        var p = document.getElementById('a11y-panel');
-        var o = document.querySelector('.a11y-overlay');
-        if (p) p.style.zIndex = '10001';
-        if (o) o.style.zIndex = '10000';
-        window.__a11yTogglePanel();
-      } else {
-        var t = document.querySelector('.a11y-trigger');
-        if (t) {
-          var p = document.getElementById('a11y-panel');
-          var o = document.querySelector('.a11y-overlay');
-          if (p) p.style.zIndex = '10001';
-          if (o) o.style.zIndex = '10000';
-          t.click();
-        }
-      }
-    });
-  </script>
+
 </body>
 </html>

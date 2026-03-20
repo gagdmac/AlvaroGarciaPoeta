@@ -73,41 +73,24 @@ body::before {
   }
 }
 
+/* Show nav above gate when not authenticated */
+:root:not([data-gate-auth]) .site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+}
+
+/* Ensure a11y panel + overlay appear above gate + nav */
+:root:not([data-gate-auth]) {
+  .a11y-panel  { z-index: 10002 !important; }
+  .a11y-overlay { z-index: 10001 !important; }
+}
+
 /* Lock emblem */
-.page-gate__emblem-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
-}
-
-.page-gate__a11y-trigger {
-  background: none;
-  border: none;
-  color: var(--color-ink-muted);
-  font-size: #{rem-calc(22)};
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: #{rem-calc(44)};
-  min-height: #{rem-calc(44)};
-  padding: 0;
-  border-radius: 50%;
-  transition: color var(--duration-fast) var(--ease-out);
-
-  &:hover {
-    color: var(--color-accent);
-  }
-
-  &:focus-visible {
-    outline: #{rem-calc(2)} dashed var(--color-accent);
-    outline-offset: #{rem-calc(2)};
-  }
-}
-
 .page-gate__emblem {
+  margin: 0 auto var(--space-6);
   width: #{rem-calc(64)};
   height: #{rem-calc(64)};
   display: flex;
