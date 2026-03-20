@@ -112,18 +112,18 @@
 
 /* ── Masonry Grid ── */
 .masonry-grid {
-  column-count: 2;
-  column-gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
 
   > .masonry-item {
-    break-inside: avoid;
-    margin-bottom: 2rem;
+    break-inside: auto;
   }
 }
 
 @include respond-below(sm) {
   .masonry-grid {
-    column-count: 1;
+    grid-template-columns: 1fr;
   }
 }
 
