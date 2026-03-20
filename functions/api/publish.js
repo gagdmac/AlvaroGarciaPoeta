@@ -89,8 +89,6 @@ export async function onRequestPost(context) {
 
   const fileContent = JSON.stringify(sonnetData, null, 2);
   const filePath = `sonnets/${date}-${slug}.json`;
-
-  // ── Commit to GitHub ──
   const ghUrl = `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${filePath}`;
 
   console.log('Publishing sonnet:', {
@@ -101,6 +99,33 @@ export async function onRequestPost(context) {
   });
 
   try {
+    // Check if file already exists (need SHA for update)
+    let sha = null;
+    const checkResponse = await fetch(ghUrl, {
+      headers: {
+        Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+        Accept: 'application/vnd.github+json',
+      },
+    });
+
+    if (checkResponse.ok) {
+      const existing = await checkResponse.json();
+      sha = existing.sha;
+      console.log('File exists, will update with SHA:', sha);
+    } else if (checkResponse.status !== 404) {
+      console.error('Unexpected response checking file:', checkResponse.status);
+    }
+
+    // Prepare the PUT body
+    const putBody = {
+      message: `Nuevo soneto: ${cleanTitle}`,
+      content: btoa(unescape(encodeURIComponent(fileContent))),
+    };
+
+    if (sha) {
+      putBody.sha = sha;
+    }
+
     const ghResponse = await fetch(ghUrl, {
       method: 'PUT',
       headers: {
@@ -109,11 +134,7 @@ export async function onRequestPost(context) {
         'User-Agent': 'AlvaroGarciaPoeta-Publisher',
         Accept: 'application/vnd.github+json',
       },
-      body: JSON.stringify({
-        message: `Nuevo soneto: ${cleanTitle}`,
-        content: btoa(unescape(encodeURIComponent(fileContent))),
-        branch: 'main',
-      }),
+      body: JSON.stringify(putBody),
     });
 
     if (!ghResponse.ok) {
