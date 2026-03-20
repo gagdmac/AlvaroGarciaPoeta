@@ -193,12 +193,7 @@
 }
 
 .publish-layout__preview-column {
-  /* Preview takes up its space */
-}
-@media (max-width: 1023px) {
-  .publish-layout__preview-column {
-    order: -1; /* Move preview above form on mobile */
-  }
+  /* Preview below form on mobile, beside on desktop */
 }
 
 .publish-header {
@@ -611,6 +606,7 @@
   white-space: pre-line;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-top: var(--space-1);
@@ -627,6 +623,7 @@
 .sonnet-item__actions {
   display: flex;
   justify-content: flex-start;
+  gap: var(--space-1);
   margin-top: var(--space-2);
 }
 @media (min-width: 768px) {
@@ -639,6 +636,7 @@
   }
 }
 
+.btn-edit,
 .btn-delete {
   display: inline-flex;
   align-items: center;
@@ -655,14 +653,31 @@
   transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
 }
 @media (min-width: 768px) {
+  .btn-edit,
   .btn-delete {
-    /* Icon-only on desktop */
     padding: var(--space-1) var(--space-2);
   }
-  .btn-delete .btn-delete-label {
+  .btn-edit .btn-action-label,
+  .btn-delete .btn-action-label {
     display: none;
   }
 }
+.btn-edit:disabled,
+.btn-delete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-edit:hover, .btn-edit:focus-visible {
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  outline: none;
+}
+.btn-edit:focus-visible {
+  outline: 0.125rem solid var(--color-accent);
+  outline-offset: 0.125rem;
+}
+
 .btn-delete:hover, .btn-delete:focus-visible {
   color: var(--color-error);
   background: color-mix(in srgb, var(--color-error) 8%, transparent);
@@ -671,10 +686,6 @@
 .btn-delete:focus-visible {
   outline: 0.125rem solid var(--color-error);
   outline-offset: 0.125rem;
-}
-.btn-delete:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .sonnets-empty {

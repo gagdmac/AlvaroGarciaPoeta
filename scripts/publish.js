@@ -156,23 +156,38 @@
     }
 
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Publicando…';
+    var isEditing = form.getAttribute('data-editing') === '1';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> ' + (isEditing ? 'Guardando…' : 'Publicando…');
+
+    var payload = {
+      password: password,
+      title: title,
+      dedication: dedication,
+      sonnet: sonnetTextarea.value.trim()
+    };
+
+    // If editing, send the original createdAt and date to preserve them
+    if (isEditing) {
+      var originalCreatedAt = form.getAttribute('data-edit-created-at');
+      var originalDate = form.getAttribute('data-edit-original-date');
+      if (originalCreatedAt) payload.createdAt = originalCreatedAt;
+      if (originalDate) payload.originalDate = originalDate;
+    }
 
     try {
       var res = await fetch('/api/publish', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          password: password,
-          title: title,
-          dedication: dedication,
-          sonnet: sonnetTextarea.value.trim()
-        })
+        body: JSON.stringify(payload)
       });
 
       if (res.ok) {
         formStatus.className = 'form-status form-status--success';
-        formStatus.textContent = '¡Soneto publicado! La lista se actualiza automáticamente.';
+        formStatus.textContent = isEditing ? '¡Soneto guardado!' : '¡Soneto publicado! La lista se actualiza automáticamente.';
+        // Clear edit mode
+        form.removeAttribute('data-editing');
+        form.removeAttribute('data-edit-created-at');
+        form.removeAttribute('data-edit-original-date');
         setTimeout(function() { location.reload(); }, 1500);
         form.reset();
         updateVerseCounter();
@@ -187,7 +202,12 @@
       formStatus.textContent = 'Error de conexión. Inténtalo de nuevo.';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-feather-alt" aria-hidden="true"></i> Publicar Soneto';
+      // Reset button to correct mode
+      if (form.getAttribute('data-editing') === '1') {
+        submitBtn.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i> Guardar Soneto';
+      } else {
+        submitBtn.innerHTML = '<i class="fas fa-feather-alt" aria-hidden="true"></i> Publicar Soneto';
+      }
     }
   });
 })();

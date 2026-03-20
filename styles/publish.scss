@@ -201,10 +201,7 @@
 
 
 .publish-layout__preview-column {
-  /* Preview takes up its space */
-  @media (max-width: 1023px) {
-    order: -1; /* Move preview above form on mobile */
-  }
+  /* Preview below form on mobile, beside on desktop */
 }
 
 .publish-header {
@@ -652,6 +649,7 @@
 .sonnet-item__actions {
   display: flex;
   justify-content: flex-start;
+  gap: var(--space-1);
   margin-top: var(--space-2);
 
   @media (min-width: 768px) {
@@ -663,6 +661,7 @@
   }
 }
 
+.btn-edit,
 .btn-delete {
   display: inline-flex;
   align-items: center;
@@ -680,14 +679,34 @@
               background var(--duration-fast) var(--ease-out);
 
   @media (min-width: 768px) {
-    /* Icon-only on desktop */
     padding: var(--space-1) var(--space-2);
 
-    .btn-delete-label {
+    .btn-action-label {
       display: none;
     }
   }
 
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.btn-edit {
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: #{rem-calc(2)} solid var(--color-accent);
+    outline-offset: #{rem-calc(2)};
+  }
+}
+
+.btn-delete {
   &:hover,
   &:focus-visible {
     color: var(--color-error);
@@ -698,11 +717,6 @@
   &:focus-visible {
     outline: #{rem-calc(2)} solid var(--color-error);
     outline-offset: #{rem-calc(2)};
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
   }
 }
 

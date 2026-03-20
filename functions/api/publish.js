@@ -35,7 +35,7 @@ export async function onRequestPost(context) {
     return new Response('JSON inválido', { status: 400 });
   }
 
-  const { password, title, dedication, sonnet } = body;
+  const { password, title, dedication, sonnet, createdAt: clientCreatedAt, originalDate } = body;
 
   // ── Authentication ──
   if (!password || password !== env.PUBLISH_PASSWORD) {
@@ -75,13 +75,13 @@ export async function onRequestPost(context) {
     .replace(/^-|-$/g, '');
 
   const now = new Date();
-  const date = now.toISOString().split('T')[0];
+  const date = originalDate || now.toISOString().split('T')[0];
 
   const sonnetData = {
     title: cleanTitle,
     slug,
     date,
-    createdAt: now.toISOString(),
+    createdAt: clientCreatedAt || now.toISOString(),
     dedication: (dedication && typeof dedication === 'string' && dedication.trim()) || null,
     cuarteto1: lines.slice(0, 4),
     cuarteto2: lines.slice(4, 8),

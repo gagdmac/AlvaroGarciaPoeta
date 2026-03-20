@@ -44,8 +44,11 @@
 
         content += '<div class="sonnet-item__verses">' + escapeHtml(versesPreview) + '…</div>' +
           '<div class="sonnet-item__actions">' +
+          '<button class="btn-edit" aria-label="Editar soneto" data-slug="' + escapeHtml(sonnet.slug) + '" data-date="' + escapeHtml(sonnet.date) + '" data-created-at="' + escapeHtml(sonnet.createdAt || '') + '">' +
+          '<i class="fas fa-pen" aria-hidden="true"></i><span class="btn-action-label"> Editar</span>' +
+          '</button>' +
           '<button class="btn-delete" aria-label="Eliminar soneto" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
-          '<i class="fas fa-trash-alt" aria-hidden="true"></i><span class="btn-delete-label"> Eliminar</span>' +
+          '<i class="fas fa-trash-alt" aria-hidden="true"></i><span class="btn-action-label"> Eliminar</span>' +
           '</button>' +
           '</div>';
 
@@ -54,6 +57,7 @@
       });
 
       attachDeleteHandlers();
+      attachEditHandlers();
     } catch (err) {
       console.error('Error loading sonnets:', err);
       sonnetsList.innerHTML = '<div class="sonnets-empty">Error al cargar sonetos.</div>';
@@ -76,6 +80,74 @@
         requestDeleteConfirm(filename, this);
       });
     });
+  }
+
+  function attachEditHandlers() {
+    var editButtons = sonnetsList.querySelectorAll('.btn-edit');
+
+    editButtons.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var slug = this.getAttribute('data-slug');
+        var date = this.getAttribute('data-date');
+        var filename = 'sonnets/' + date + '-' + slug + '.json';
+        loadSonnetForEdit(filename);
+      });
+    });
+  }
+
+  async function loadSonnetForEdit(filename) {
+    try {
+      var res = await fetch('/' + filename);
+      if (!res.ok) throw new Error('Failed to load sonnet');
+      var sonnet = await res.json();
+
+      // Pre-fill the form fields
+      var titleInput = document.getElementById('title');
+      var dedicationInput = document.getElementById('dedication');
+      var sonnetTextarea = document.getElementById('sonnet');
+
+      // Store createdAt and original date on the form for edit mode
+      var form = document.getElementById('sonnetForm');
+      if (form) {
+        form.setAttribute('data-edit-created-at', sonnet.createdAt || '');
+        form.setAttribute('data-edit-original-date', sonnet.date || '');
+        form.setAttribute('data-editing', '1');
+        // Update submit button text
+        var submitBtn = document.getElementById('submit-btn');
+        if (submitBtn) {
+          submitBtn.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i> Guardar Soneto';
+        }
+      }
+
+      if (titleInput) titleInput.value = sonnet.title || '';
+      if (dedicationInput) dedicationInput.value = sonnet.dedication || '';
+
+      // Reconstruct the 14 verses from the stanza arrays
+      var lines = []
+        .concat(sonnet.cuarteto1 || [])
+        .concat(sonnet.cuarteto2 || [])
+        .concat(sonnet.terceto1 || [])
+        .concat(sonnet.terceto2 || []);
+
+      if (sonnetTextarea) {
+        sonnetTextarea.value = lines.join('\n');
+        // Trigger input event so preview and verse counter update
+        sonnetTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      if (titleInput) {
+        titleInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+
+      // Scroll to the form
+      var formSection = document.querySelector('.publish-layout__form-column');
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (err) {
+      console.error('Edit load error:', err);
+      alert('Error al cargar el soneto para editar.');
+    }
   }
 
   function requestDeleteConfirm(filename, button) {
@@ -102,7 +174,7 @@
 
   async function performDelete(filename, password, button) {
     button.disabled = true;
-button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span class="btn-delete-label"> Eliminando…</span>';
+button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span class="btn-action-label"> Eliminando…</span>';
 
     try {
       var res = await fetch('/api/delete', {
@@ -128,7 +200,7 @@ button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><sp
       alert('Error de conexión.');
     } finally {
       button.disabled = false;
-        button.innerHTML = '<i class="fas fa-trash-alt" aria-hidden="true"></i><span class="btn-delete-label"> Eliminar</span>';
+        button.innerHTML = '<i class="fas fa-trash-alt" aria-hidden="true"></i><span class="btn-action-label"> Eliminar</span>';
     }
   }
 
