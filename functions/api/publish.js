@@ -93,26 +93,43 @@ export async function onRequestPost(context) {
   // ── Commit to GitHub ──
   const ghUrl = `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${filePath}`;
 
-  const ghResponse = await fetch(ghUrl, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${env.GITHUB_TOKEN}`,
-      'Content-Type': 'application/json',
-      'User-Agent': 'AlvaroGarciaPoeta-Publisher',
-      Accept: 'application/vnd.github+json',
-    },
-    body: JSON.stringify({
-      message: `Nuevo soneto: ${cleanTitle}`,
-      content: btoa(unescape(encodeURIComponent(fileContent))),
-      branch: 'main',
-    }),
+  console.log('Publishing sonnet:', {
+    repo: env.GITHUB_REPO,
+    filePath,
+    title: cleanTitle,
+    hasToken: !!env.GITHUB_TOKEN,
   });
 
-  if (!ghResponse.ok) {
-    const errBody = await ghResponse.text();
-    console.error('GitHub API error:', ghResponse.status, errBody);
-    return new Response('Error al publicar. Inténtalo de nuevo.', { status: 500 });
-  }
+  try {
+    const ghResponse = await fetch(ghUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'AlvaroGarciaPoeta-Publisher',
+        Accept: 'application/vnd.github+json',
+      },
+      body: JSON.stringify({
+        message: `Nuevo soneto: ${cleanTitle}`,
+        content: btoa(unescape(encodeURIComponent(fileContent))),
+        branch: 'main',
+      }),
+    });
 
-  return new Response('Soneto publicado', { status: 200 });
+    if (!ghResponse.ok) {
+      const errBody = await ghResponse.text();
+      console.error('GitHub API error:', {
+        status: ghResponse.status,
+        body: errBody,
+        url: ghUrl,
+      });
+      return new Response(`GitHub error: ${ghResponse.status}`, { status: 500 });
+    }
+
+    console.log('Sonnet published successfully');
+    return new Response('Soneto publicado', { status: 200 });
+  } catch (error) {
+    console.error('Publish error:', error.message, error.stack);
+    return new Response(`Error: ${error.message}`, { status: 500 });
+  }
 }
