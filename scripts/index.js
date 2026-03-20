@@ -98,7 +98,13 @@
       var res = await fetch('sonnets/index.json');
       if (!res.ok) throw new Error();
       var sonnets = await res.json();
-      sonnets.sort(function (a, b) { return b.date.localeCompare(a.date); });
+      // Sort by date desc; when dates are equal, newer entries (higher index) come first
+      sonnets = sonnets.map(function (s, i) { return { s: s, i: i }; })
+        .sort(function (a, b) {
+          var d = b.s.date.localeCompare(a.s.date);
+          return d !== 0 ? d : b.i - a.i;
+        })
+        .map(function (x) { return x.s; });
 
       if (!sonnets.length) {
         emptyState.hidden = false;
