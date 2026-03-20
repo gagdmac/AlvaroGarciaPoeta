@@ -97,6 +97,23 @@ body {
   overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Ruled paper texture — subtle editorial feel */
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent #{rem-calc(27)},
+      var(--color-border-subtle) #{rem-calc(27)},
+      var(--color-border-subtle) #{rem-calc(28)}
+    );
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
 /* ── Skip Link ── */

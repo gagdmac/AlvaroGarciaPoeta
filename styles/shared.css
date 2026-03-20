@@ -89,6 +89,16 @@ body {
   overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Ruled paper texture — subtle editorial feel */
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 1.6875rem, var(--color-border-subtle) 1.6875rem, var(--color-border-subtle) 1.75rem);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Skip Link ── */

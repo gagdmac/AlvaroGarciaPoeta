@@ -9,6 +9,11 @@
   display: none;
 }
 
+/* Hide ruled-paper texture on publish page (gate has its own) */
+body::before {
+  display: none;
+}
+
 :root[data-gate-auth] #main-content {
   display: block;
 }
