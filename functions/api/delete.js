@@ -48,17 +48,22 @@ export async function onRequestDelete(context) {
 
   const ghUrl = `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${filename}`;
 
+  console.log('Delete request:', { filename, ghUrl, repo: env.GITHUB_REPO });
+
   try {
     // Get file SHA
     const getResponse = await fetch(ghUrl, {
       headers: {
         Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+        'User-Agent': 'AlvaroGarciaPoeta-Publisher',
         Accept: 'application/vnd.github+json',
       },
     });
 
     if (!getResponse.ok) {
-      return new Response('Soneto no encontrado', { status: 404 });
+      const errBody = await getResponse.text();
+      console.error('GitHub GET error:', getResponse.status, errBody);
+      return new Response('Soneto no encontrado (GitHub ' + getResponse.status + ')', { status: 404 });
     }
 
     const file = await getResponse.json();
