@@ -365,8 +365,9 @@
     ],
     "terceto2": [
       "Que en cada ola que se desvanece",
-      "se lleva el mar aquello que más brilla",
+      "se lleva el mar aquello que mÃ¡s brilla",
       "y nos devuelve lo que permanece."
-    ]
+    ],
+    "hidden": true
   }
 ]
