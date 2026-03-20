@@ -21,8 +21,12 @@ const sonnets = files.map(file => {
   return JSON.parse(content);
 });
 
-// Sort newest first
-sonnets.sort((a, b) => b.date.localeCompare(a.date));
+// Sort newest first by createdAt timestamp, fallback to date
+sonnets.sort((a, b) => {
+  const aKey = a.createdAt || a.date;
+  const bKey = b.createdAt || b.date;
+  return bKey.localeCompare(aKey);
+});
 
 fs.writeFileSync(INDEX_FILE, JSON.stringify(sonnets, null, 2));
 

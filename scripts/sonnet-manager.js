@@ -20,8 +20,14 @@
         return;
       }
 
-      // Reverse to show newest first
-      sonnets.reverse().forEach(function (sonnet) {
+      // Sort newest first by createdAt timestamp, fallback to date
+      sonnets.sort(function (a, b) {
+        var aKey = a.createdAt || a.date;
+        var bKey = b.createdAt || b.date;
+        return bKey.localeCompare(aKey);
+      });
+
+      sonnets.forEach(function (sonnet) {
         var item = document.createElement('div');
         item.className = 'sonnet-item';
 
