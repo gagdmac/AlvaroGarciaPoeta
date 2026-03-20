@@ -216,28 +216,19 @@
   background: var(--color-divider);
 }
 
-/* ── Masonry Grid ── */
+/* ── Masonry Grid (Bootstrap row/col) ── */
 .masonry-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-}
-.masonry-grid > .masonry-item {
-  break-inside: auto;
+  --bs-gutter-x: 2rem;
+  --bs-gutter-y: 2rem;
 }
 
-@media (max-width: 767px) {
-  .masonry-grid {
-    grid-template-columns: 1fr;
-  }
+/* Full-width cards when font zoom is 150%+ (any viewport) */
+.a11y-font-150 .masonry-item,
+.a11y-font-200 .masonry-item {
+  flex: 0 0 100%;
+  max-width: 100%;
 }
-/* Full-width cards when font zoom is 150%+ on mobile */
-@media (max-width: 991px) {
-  .a11y-font-150 .masonry-grid,
-  .a11y-font-200 .masonry-grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 /* ── Sonnet Cards ── */
 .sonnet-card {
   background: var(--color-surface);

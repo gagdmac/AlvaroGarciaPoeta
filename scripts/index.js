@@ -32,7 +32,7 @@
 
   function createSonnetCard(sonnet, index) {
     var item = document.createElement('div');
-    item.className = 'masonry-item';
+    item.className = 'masonry-item col-12 col-md-6';
 
     var article = document.createElement('article');
     article.className = 'sonnet-card';
