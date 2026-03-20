@@ -28,6 +28,34 @@
     ]
   },
   {
+    "title": "Animales muertos",
+    "slug": "animales-muertos",
+    "date": "2026-03-20",
+    "dedication": "todos",
+    "cuarteto1": [
+      "Carga de perro",
+      "Pajaro avion",
+      "Pez volador",
+      "Rata loca"
+    ],
+    "cuarteto2": [
+      "Carga de perro",
+      "Pajaro avion",
+      "Pez volador",
+      "Rata loca"
+    ],
+    "terceto1": [
+      "Carga de perro",
+      "Pajaro avion",
+      "Pez volador"
+    ],
+    "terceto2": [
+      "Rata loca",
+      "Pez volador",
+      "Rata loca"
+    ]
+  },
+  {
     "title": "Example de sonnnet 2",
     "slug": "example-de-sonnnet-2",
     "date": "2026-03-20",
