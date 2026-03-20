@@ -84,15 +84,11 @@
       var shareBtn = document.createElement('button');
       shareBtn.className = 'sonnet-card__share';
       shareBtn.setAttribute('aria-label', 'Compartir en Facebook');
-      shareBtn.innerHTML = '<i class="fas fa-share-alt" aria-hidden="true"></i> Compartir';
+      shareBtn.innerHTML = '<i class="fas fa-share-alt" aria-hidden="true"></i> Facebook';
       shareBtn.addEventListener('click', function () {
-        var url = encodeURIComponent(window.location.origin);
-        var text = encodeURIComponent(sonnet.title + ' — Álvaro García');
-        window.open(
-          'https://www.facebook.com/sharer/sharer.php?u=' + url + '&quote=' + text,
-          'fb-share',
-          'width=580,height=400'
-        );
+        var siteUrl = window.location.origin;
+        var fbUrl = 'https://www.facebook.com/sharer.php?u=' + encodeURIComponent(siteUrl);
+        window.open(fbUrl, '_blank', 'width=600,height=500,noopener,noreferrer');
       });
       footer.appendChild(shareBtn);
 
