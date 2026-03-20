@@ -1,5 +1,33 @@
 [
   {
+    "title": "Example de sonnnet",
+    "slug": "example-de-sonnnet",
+    "date": "2026-03-20",
+    "dedication": "A mi hijo gabriel",
+    "cuarteto1": [
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo"
+    ],
+    "cuarteto2": [
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo"
+    ],
+    "terceto1": [
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo"
+    ],
+    "terceto2": [
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo",
+      "Padsudo descomprimido hermano he hijo"
+    ]
+  },
+  {
     "title": "A la rosa efímera",
     "slug": "a-la-rosa-efimera",
     "date": "2026-03-15",
