@@ -1,0 +1,28 @@
+{
+  "title": "Soneto numero 1",
+  "slug": "soneto-numero-1",
+  "date": "2026-03-20",
+  "dedication": "de primero",
+  "cuarteto1": [
+    "Arriba del todo",
+    "Arriba del todo",
+    "Arriba del todo",
+    "Arriba del todo"
+  ],
+  "cuarteto2": [
+    "Arriba del todo",
+    "Arriba del todo",
+    "Arriba del todo",
+    "Arriba del todo"
+  ],
+  "terceto1": [
+    "Arriba del todo",
+    "Arriba del todo",
+    "Arriba del todo"
+  ],
+  "terceto2": [
+    "Arriba del todo",
+    "Arriba del todo",
+    "Arriba del todo"
+  ]
+}
