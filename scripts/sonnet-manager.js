@@ -154,15 +154,21 @@
     var title = button.closest('.sonnet-item')
       .querySelector('.sonnet-item__title')
       .textContent;
+    var isHidden = button.classList.contains('is-hidden');
+    var msg = isHidden
+      ? '¿Mostrar "' + title + '"?'
+      : '¿Ocultar "' + title + '"?';
 
-    if (confirm('¿Ocultar "' + title + '"?')) {
+    if (confirm(msg)) {
       performDelete(filename, button);
     }
   }
 
   async function performDelete(filename, button) {
+    var isHidden = button.classList.contains('is-hidden');
+    var actionLabel = isHidden ? 'Mostrando' : 'Ocultando';
     button.disabled = true;
-    button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span class="btn-action-label"> Ocultando…</span>';
+    button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span class="btn-action-label"> ' + actionLabel + '…</span>';
 
     // Use the session password from the publish form
     var passwordInput = document.getElementById('password');
@@ -176,8 +182,8 @@
       });
 
       if (res.ok) {
-        alert('Soneto ocultado.');
-        button.closest('.sonnet-item').remove();
+        var msg = isHidden ? 'Soneto visible.' : 'Soneto ocultado.';
+        alert(msg);
         sonnetsList.innerHTML = '';
         loadSonnets();
       } else {
@@ -189,7 +195,6 @@
       alert('Error de conexión.');
     } finally {
       button.disabled = false;
-      button.innerHTML = '<i class="fas fa-eye-slash" aria-hidden="true"></i><span class="btn-action-label"> Ocultar</span>';
     }
   }
 

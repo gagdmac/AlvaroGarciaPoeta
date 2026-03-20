@@ -1,7 +1,7 @@
 /**
  * Cloudflare Pages Function: POST /api/hide
  *
- * Hides a sonnet by setting hidden:true in its JSON file.
+ * Toggles a sonnet's hidden flag (hide/unhide).
  *
  * Required environment variables:
  *   PUBLISH_PASSWORD - Password for authentication
@@ -50,14 +50,22 @@ export async function onRequestPost(context) {
 
     const fileData = await getRes.json();
     const content = JSON.parse(atob(fileData.content));
-    content.hidden = true;
+    const wasHidden = !!content.hidden;
+    content.hidden = !wasHidden;
 
-    // Update file with hidden flag
+    // If unhiding, remove the flag entirely for a clean JSON
+    if (!content.hidden) {
+      delete content.hidden;
+    }
+
+    const action = wasHidden ? 'Mostrar' : 'Ocultar';
+
+    // Update file with toggled hidden flag
     const putRes = await fetch(ghUrl, {
       method: 'PUT',
       headers: { ...headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message: `Ocultar soneto: ${content.title}`,
+        message: `${action} soneto: ${content.title}`,
         content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
         sha: fileData.sha,
       }),
@@ -66,10 +74,13 @@ export async function onRequestPost(context) {
     if (!putRes.ok) {
       const errBody = await putRes.text();
       console.error('GitHub API error:', { status: putRes.status, body: errBody });
-      return new Response('Error al ocultar soneto', { status: 500 });
+      return new Response(`Error al ${action.toLowerCase()} soneto`, { status: 500 });
     }
 
-    return new Response('Soneto ocultado', { status: 200 });
+    return new Response(JSON.stringify({ hidden: content.hidden !== undefined }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Hide error:', error.message);
     return new Response(`Error: ${error.message}`, { status: 500 });
