@@ -47,8 +47,8 @@
           '<button class="btn-edit" aria-label="Editar soneto" data-slug="' + escapeHtml(sonnet.slug) + '" data-date="' + escapeHtml(sonnet.date) + '" data-created-at="' + escapeHtml(sonnet.createdAt || '') + '">' +
           '<i class="fas fa-pen" aria-hidden="true"></i><span class="btn-action-label"> Editar</span>' +
           '</button>' +
-          '<button class="btn-delete" aria-label="Ocultar soneto" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
-          '<i class="fas fa-eye-slash" aria-hidden="true"></i><span class="btn-action-label"> Ocultar</span>' +
+          '<button class="btn-delete' + (sonnet.hidden ? ' is-hidden' : '') + '" aria-label="' + (sonnet.hidden ? 'Soneto oculto' : 'Ocultar soneto') + '" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
+          '<i class="fas ' + (sonnet.hidden ? 'fa-ban' : 'fa-eye-slash') + '" aria-hidden="true"></i><span class="btn-action-label"> ' + (sonnet.hidden ? 'Oculto' : 'Ocultar') + '</span>' +
           '</button>' +
           '</div>';
 

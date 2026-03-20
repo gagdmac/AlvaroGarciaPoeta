@@ -192,10 +192,6 @@
   }
 }
 
-.publish-layout__preview-column {
-  /* Preview below form on mobile, beside on desktop */
-}
-
 .publish-header {
   text-align: center;
   margin-bottom: var(--space-12);
@@ -818,6 +814,11 @@
 .btn-delete:focus-visible {
   outline: 0.125rem solid var(--color-error);
   outline-offset: 0.125rem;
+}
+.btn-delete.is-hidden {
+  color: var(--color-error);
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+  pointer-events: none;
 }
 
 .sonnets-empty {

@@ -858,6 +858,12 @@
     outline: #{rem-calc(2)} solid var(--color-error);
     outline-offset: #{rem-calc(2)};
   }
+
+  &.is-hidden {
+    color: var(--color-error);
+    background: color-mix(in srgb, var(--color-error) 12%, transparent);
+    pointer-events: none;
+  }
 }
 
 .sonnets-empty {
