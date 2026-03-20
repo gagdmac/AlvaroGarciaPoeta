@@ -6,6 +6,21 @@
   <title>Publicar Soneto — Álvaro García</title>
   <meta name="robots" content="noindex, nofollow">
 
+  <!-- Prevent FOUC (Flash of Unstyled Content) by applying theme immediately -->
+  <script>
+    (function() {
+      try {
+        var saved = JSON.parse(localStorage.getItem('a11y-options'));
+        var lightMode = saved && saved.lightMode;
+        if (lightMode === 'light') {
+          document.documentElement.style.colorScheme = 'light';
+        } else if (lightMode === 'dark') {
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+
   <!-- Shared head resources (fonts, Bootstrap, FA, shared CSS) -->
   <script src="components/head.js"></script>
 

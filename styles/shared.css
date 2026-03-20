@@ -54,6 +54,7 @@
   --color-ink-hero-muted: light-dark(#4a4a4a, #d4d4d4);
   --color-accent: light-dark(#996608, #e8b84a);
   --color-accent-hover: light-dark(#7a5207, #f0c467);
+  --color-accent-medium: light-dark(rgba(153, 102, 8, 0.4), rgba(232, 184, 74, 0.4));
   --color-accent-subtle: light-dark(rgba(184, 134, 11, 0.08), rgba(212, 168, 83, 0.1));
   --color-border: light-dark(#d8d0c6, #3a3a3a);
   --color-border-subtle: light-dark(#e0d6ce, #2a2a2a);
@@ -223,3 +224,5 @@ body {
     gap: var(--space-4);
   }
 }
+
+/*# sourceMappingURL=shared.css.map */

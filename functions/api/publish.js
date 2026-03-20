@@ -13,6 +13,15 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
+  // ── Debug: Check env variables exist ──
+  if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
+    console.error('Missing env vars:', { 
+      hasToken: !!env.GITHUB_TOKEN, 
+      hasRepo: !!env.GITHUB_REPO 
+    });
+    return new Response('Error: Variables de entorno no configuradas', { status: 500 });
+  }
+
   // Only accept JSON
   const contentType = request.headers.get('content-type') || '';
   if (!contentType.includes('application/json')) {
