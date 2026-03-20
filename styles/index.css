@@ -223,7 +223,10 @@
   color: var(--color-ink-muted);
 }
 
-.sonnet-card__tag {
+.sonnet-card__share {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 500;
@@ -232,7 +235,15 @@
   color: var(--color-accent);
   background: var(--color-accent-subtle);
   padding: 0.15em 0.6em;
+  border: none;
   border-radius: 0.125rem;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+.sonnet-card__share:hover, .sonnet-card__share:focus-visible {
+  color: var(--color-bg);
+  background: var(--color-accent);
+  outline: none;
 }
 
 @container sonnet (min-width: 28.125rem) {

@@ -81,11 +81,21 @@
       time.setAttribute('datetime', sonnet.date);
       time.textContent = formatDate(sonnet.date);
       footer.appendChild(time);
-      var tag = document.createElement('span');
-      tag.className = 'sonnet-card__tag';
-      tag.setAttribute('aria-hidden', 'true');
-      tag.textContent = 'Soneto';
-      footer.appendChild(tag);
+      var shareBtn = document.createElement('button');
+      shareBtn.className = 'sonnet-card__share';
+      shareBtn.setAttribute('aria-label', 'Compartir en Facebook');
+      shareBtn.innerHTML = '<i class="fas fa-share-alt" aria-hidden="true"></i> Compartir';
+      shareBtn.addEventListener('click', function () {
+        var url = encodeURIComponent(window.location.origin);
+        var text = encodeURIComponent(sonnet.title + ' — Álvaro García');
+        window.open(
+          'https://www.facebook.com/sharer/sharer.php?u=' + url + '&quote=' + text,
+          'fb-share',
+          'width=580,height=400'
+        );
+      });
+      footer.appendChild(shareBtn);
+
       article.appendChild(footer);
     }
 

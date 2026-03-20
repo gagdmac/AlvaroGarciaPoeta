@@ -307,6 +307,133 @@
   display: none;
 }
 
+/* ── Password wrapper + toggle ── */
+.password-wrapper {
+  position: relative;
+}
+.password-wrapper input {
+  padding-right: 2.75rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.password-toggle:hover, .password-toggle:focus-visible {
+  color: var(--color-ink);
+  outline: none;
+}
+
+/* ── Delete Password Dialog ── */
+.password-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+.password-dialog-overlay[hidden] {
+  display: none;
+}
+
+.password-dialog {
+  background: var(--color-bg);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-6);
+  width: 100%;
+  max-width: 23.75rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+}
+
+.password-dialog__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--color-ink);
+  margin: 0 0 var(--space-2);
+}
+
+.password-dialog__text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 300;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.password-dialog__input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  padding-right: 2.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 300;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-md);
+  min-height: 2.75rem;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.password-dialog__input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.1875rem var(--color-accent-subtle);
+  outline: none;
+}
+
+.password-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.password-dialog__btn {
+  padding: var(--space-2) var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.password-dialog__btn--cancel {
+  color: var(--color-ink-muted);
+  background: transparent;
+  border: 0.0625rem solid var(--color-border);
+}
+.password-dialog__btn--cancel:hover {
+  background: var(--color-bg-hero);
+}
+.password-dialog__btn--confirm {
+  color: #fff;
+  background: var(--color-error);
+  border: none;
+}
+.password-dialog__btn--confirm:hover {
+  background: color-mix(in srgb, var(--color-error) 85%, black);
+}
+
 /* ── Buttons ── */
 .btn-publish {
   display: inline-flex;

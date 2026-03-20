@@ -161,15 +161,51 @@
   }
 
   function requestDeletePassword(filename, button) {
-    var password = prompt('Introduce la contraseña para confirmar la eliminación:');
+    var dialog = document.getElementById('delete-password-dialog');
+    var input = document.getElementById('delete-password-input');
+    var confirmBtn = document.getElementById('delete-dialog-confirm');
+    var cancelBtn = document.getElementById('delete-dialog-cancel');
 
-    if (password === null) return; // User cancelled
-    if (!password) {
-      alert('Contraseña requerida.');
-      return;
+    // Reset and show
+    input.value = '';
+    input.type = 'password';
+    var toggleBtn = dialog.querySelector('.password-toggle');
+    if (toggleBtn) {
+      toggleBtn.querySelector('i').className = 'fas fa-eye';
+      toggleBtn.setAttribute('aria-label', 'Mostrar contraseña');
+    }
+    dialog.hidden = false;
+    input.focus();
+
+    function cleanup() {
+      dialog.hidden = true;
+      confirmBtn.removeEventListener('click', onConfirm);
+      cancelBtn.removeEventListener('click', onCancel);
+      input.removeEventListener('keydown', onKeydown);
     }
 
-    performDelete(filename, password, button);
+    function onConfirm() {
+      var password = input.value;
+      if (!password) {
+        input.focus();
+        return;
+      }
+      cleanup();
+      performDelete(filename, password, button);
+    }
+
+    function onCancel() {
+      cleanup();
+    }
+
+    function onKeydown(e) {
+      if (e.key === 'Enter') onConfirm();
+      if (e.key === 'Escape') onCancel();
+    }
+
+    confirmBtn.addEventListener('click', onConfirm);
+    cancelBtn.addEventListener('click', onCancel);
+    input.addEventListener('keydown', onKeydown);
   }
 
   async function performDelete(filename, password, button) {
