@@ -815,8 +815,51 @@
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
+  position: relative;
   transition: color var(--duration-fast) var(--ease-out),
               background var(--duration-fast) var(--ease-out);
+
+  // Custom tooltip
+  &[data-tooltip]::before,
+  &[data-tooltip]::after {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(#{rem-calc(4)});
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  &[data-tooltip]::before {
+    content: attr(data-tooltip);
+    bottom: calc(100% + #{rem-calc(8)});
+    padding: #{rem-calc(4)} #{rem-calc(10)};
+    font-family: var(--font-body);
+    font-size: #{rem-calc(11)};
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    color: var(--color-bg);
+    background: var(--color-ink);
+    border-radius: #{rem-calc(4)};
+    z-index: 10;
+  }
+
+  &[data-tooltip]::after {
+    content: '';
+    bottom: calc(100% + #{rem-calc(4)});
+    border: #{rem-calc(4)} solid transparent;
+    border-top-color: var(--color-ink);
+    z-index: 10;
+  }
+
+  &[data-tooltip]:hover::before,
+  &[data-tooltip]:hover::after,
+  &[data-tooltip]:focus-visible::before,
+  &[data-tooltip]:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 
   @media (min-width: 768px) {
     padding: var(--space-1) var(--space-2);

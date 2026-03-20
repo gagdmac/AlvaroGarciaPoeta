@@ -44,10 +44,10 @@
 
         content += '<div class="sonnet-item__verses">' + escapeHtml(versesPreview) + '…</div>' +
           '<div class="sonnet-item__actions">' +
-          '<button class="btn-edit" aria-label="Editar soneto" data-slug="' + escapeHtml(sonnet.slug) + '" data-date="' + escapeHtml(sonnet.date) + '" data-created-at="' + escapeHtml(sonnet.createdAt || '') + '">' +
+          '<button class="btn-edit" data-tooltip="Editar" aria-label="Editar soneto" data-slug="' + escapeHtml(sonnet.slug) + '" data-date="' + escapeHtml(sonnet.date) + '" data-created-at="' + escapeHtml(sonnet.createdAt || '') + '">' +
           '<i class="fas fa-pen" aria-hidden="true"></i><span class="btn-action-label"> Editar</span>' +
           '</button>' +
-          '<button class="btn-delete' + (sonnet.hidden ? ' is-hidden' : '') + '" aria-label="' + (sonnet.hidden ? 'Soneto oculto' : 'Ocultar soneto') + '" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
+          '<button class="btn-delete' + (sonnet.hidden ? ' is-hidden' : '') + '" data-tooltip="' + (sonnet.hidden ? 'Mostrar' : 'Ocultar') + '" aria-label="' + (sonnet.hidden ? 'Mostrar soneto' : 'Ocultar soneto') + '" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
           '<i class="fas ' + (sonnet.hidden ? 'fa-eye' : 'fa-eye-slash') + '" aria-hidden="true"></i><span class="btn-action-label"> ' + (sonnet.hidden ? 'Oculto' : 'Ocultar') + '</span>' +
           '</button>' +
           '</div>';
@@ -184,8 +184,11 @@
       if (res.ok) {
         var msg = isHidden ? 'Soneto visible.' : 'Soneto ocultado.';
         alert(msg);
+        // Preserve scroll position when reloading the list
+        var scrollY = window.scrollY;
         sonnetsList.innerHTML = '';
-        loadSonnets();
+        await loadSonnets();
+        window.scrollTo(0, scrollY);
       } else {
         var errText = await res.text();
         alert('Error: ' + errText);
