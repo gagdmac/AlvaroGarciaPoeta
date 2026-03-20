@@ -7,6 +7,7 @@
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Prevent FOUC (Flash of Unstyled Content) by applying theme immediately -->
+  <!-- Also check gate auth so CSS hides the gate before first paint -->
   <script>
     (function() {
       try {
@@ -16,6 +17,12 @@
           document.documentElement.style.colorScheme = 'light';
         } else if (lightMode === 'dark') {
           document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch (e) { /* ignore */ }
+      // Gate: mark authenticated sessions so CSS unlocks main before paint.
+      try {
+        if (sessionStorage.getItem('publish-auth')) {
+          document.documentElement.dataset.gateAuth = '1';
         }
       } catch (e) { /* ignore */ }
     })();
@@ -31,7 +38,38 @@
   <!-- Header (skip-link + nav) -->
   <script src="components/header.js"></script>
 
-  <!-- Main Content -->
+  <!-- Page Gate — shown until password is validated -->
+  <div id="page-gate" class="page-gate" role="dialog" aria-modal="true" aria-labelledby="gate-heading">
+    <div class="page-gate__inner">
+      <div class="page-gate__emblem" aria-hidden="true">
+        <i class="fas fa-lock"></i>
+      </div>
+      <span class="page-gate__overline" aria-hidden="true">Acceso restringido</span>
+      <h1 id="gate-heading" class="page-gate__title"><em>Publicar Soneto</em></h1>
+      <div class="page-gate__rule" aria-hidden="true"><span>◆</span></div>
+      <p class="page-gate__subtitle">Esta página es privada.<br>Introduce la contraseña para continuar.</p>
+      <form id="gateForm" class="page-gate__form" novalidate>
+        <div class="form-group">
+          <label for="gate-password">Contraseña</label>
+          <input
+            type="password"
+            id="gate-password"
+            name="gate-password"
+            required
+            autocomplete="current-password"
+            aria-describedby="gate-error"
+          >
+          <div class="form-error" id="gate-error" aria-live="assertive"></div>
+        </div>
+        <button type="submit" class="btn-publish" id="gate-submit-btn">
+          <i class="fas fa-lock-open" aria-hidden="true"></i>
+          Acceder
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Content (hidden until gate is passed) -->
   <main id="main-content">
     <section class="publish-section" aria-labelledby="publish-heading">
       <div class="publish-header">
@@ -40,10 +78,10 @@
         <p class="publish-header__subtitle">Escribe o pega un soneto de 14 versos</p>
       </div>
 
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-12 col-md-10 col-lg-8">
-            <form id="sonnetForm" class="publish-form" novalidate>
+      <!-- Form + Preview (side-by-side) -->
+      <div class="publish-layout">
+        <div class="publish-layout__form-column">
+          <form id="sonnetForm" class="publish-form" novalidate>
 
               <!-- Password -->
               <div class="form-group">
@@ -111,18 +149,31 @@
               <!-- Status -->
               <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
             </form>
+        </div>
 
-            <!-- Live Preview -->
-            <div class="preview-section" aria-labelledby="preview-heading">
-              <h2 id="preview-heading" class="preview-heading">Vista previa</h2>
-              <div class="preview-card" id="preview-card" aria-live="polite">
-                <p class="preview-placeholder" id="preview-placeholder">
-                  La vista previa se mostrará aquí al escribir el soneto.
-                </p>
-              </div>
+        <!-- Live Preview (beside form) -->
+        <div class="publish-layout__preview-column">
+          <div class="preview-section" aria-labelledby="preview-heading">
+            <h2 id="preview-heading" class="preview-heading">Vista previa</h2>
+            <div class="preview-card" id="preview-card" aria-live="polite">
+              <p class="preview-placeholder" id="preview-placeholder">
+                La vista previa se mostrará aquí al escribir el soneto.
+              </p>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Sonnets List -->
+      <div class="sonnets-section container" aria-labelledby="sonnets-heading">
+        <h2 id="sonnets-heading" class="sonnets-heading">Biblioteca de Sonetos</h2>
+        <div class="sonnets-table-head" aria-hidden="true">
+          <span>Fecha</span>
+          <span>Título</span>
+          <span>Primeros versos</span>
+          <span></span>
+        </div>
+        <div id="sonnets-list" class="sonnets-list" role="status" aria-live="polite"></div>
       </div>
     </section>
   </main>
@@ -132,6 +183,12 @@
 
   <!-- Footer -->
   <script src="components/footer.js"></script>
+
+  <!-- Gate Handler (runs before publish form handler) -->
+  <script src="scripts/gate.js"></script>
+
+  <!-- Sonnet Manager Handler (fetch & delete) -->
+  <script src="scripts/sonnet-manager.js"></script>
 
   <!-- Publish Form Handler -->
   <script src="scripts/publish.js"></script>

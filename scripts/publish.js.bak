@@ -172,8 +172,7 @@
 
       if (res.ok) {
         formStatus.className = 'form-status form-status--success';
-        formStatus.textContent = '¡Soneto publicado! La lista se actualiza automáticamente.';
-        setTimeout(function() { location.reload(); }, 1500);
+        formStatus.textContent = '¡Soneto publicado! Aparecerá en la web en unos minutos.';
         form.reset();
         updateVerseCounter();
         updatePreview();
