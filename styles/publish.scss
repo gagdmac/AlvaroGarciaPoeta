@@ -69,10 +69,42 @@
 }
 
 /* Lock emblem */
+.page-gate__emblem-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.page-gate__a11y-trigger {
+  background: none;
+  border: none;
+  color: var(--color-ink-muted);
+  font-size: #{rem-calc(22)};
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: #{rem-calc(44)};
+  min-height: #{rem-calc(44)};
+  padding: 0;
+  border-radius: 50%;
+  transition: color var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--color-accent);
+  }
+
+  &:focus-visible {
+    outline: #{rem-calc(2)} dashed var(--color-accent);
+    outline-offset: #{rem-calc(2)};
+  }
+}
+
 .page-gate__emblem {
   width: #{rem-calc(64)};
   height: #{rem-calc(64)};
-  margin: 0 auto var(--space-6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,8 +147,9 @@
 .page-gate__rule {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-3);
-  margin: var(--space-4) auto var(--space-5);
+  margin: #{rem-calc(16)} auto;
   max-width: #{rem-calc(200)};
 
   &::before,

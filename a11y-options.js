@@ -206,7 +206,7 @@
     '  transition: transform 150ms ease;',
     '}',
     '.a11y-toggle[aria-checked="true"] {',
-    '  background: var(--color-accent, #996608);',,
+    '  background: var(--color-accent, #996608);',
     '}',
     '.a11y-toggle[aria-checked="true"]::after {',
     '  transform: translateX(20px);',
@@ -613,6 +613,9 @@
   }
 
   trigger.addEventListener('click', togglePanel);
+
+  // Expose for external triggers (e.g. gate a11y button)
+  window.__a11yTogglePanel = togglePanel;
 
   // Close on Escape
   document.addEventListener('keydown', function (e) {
