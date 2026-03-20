@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/index.html",
+    "/publish.html",
+    "*.js",
+    "*.css",
+    "*.json",
+    "/styles/*",
+    "/components/*",
+    "/scripts/*",
+    "/sonnets/*"
+  ],
+  "rules": [
+    {
+      "include": "/api/*",
+      "middleware": "functions/api"
+    }
+  ]
+}
