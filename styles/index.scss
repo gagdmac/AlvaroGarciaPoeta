@@ -250,6 +250,14 @@
   }
 }
 
+/* Full-width cards when font zoom is 150%+ on mobile */
+@include respond-below(md) {
+  .a11y-font-150 .masonry-grid,
+  .a11y-font-200 .masonry-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Sonnet Cards ── */
 .sonnet-card {
   background: var(--color-surface);

@@ -255,4 +255,12 @@ body {
   .site-nav__inner {
     gap: var(--space-4);
   }
+
+  /* Prevent nav from scaling with font zoom on mobile */
+  .a11y-font-125 .site-nav a,
+  .a11y-font-150 .site-nav a,
+  .a11y-font-200 .site-nav a {
+    font-size: var(--text-xs);
+    --_font-scale: 1;
+  }
 }
