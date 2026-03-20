@@ -124,6 +124,8 @@
 
 /* ── Bio Panel ── */
 .bio-panel {
+  position: relative;
+  z-index: 1;
   background: var(--color-bg-hero);
   border-bottom: #{rem-calc(1)} solid var(--color-border-subtle);
   overflow: hidden;
