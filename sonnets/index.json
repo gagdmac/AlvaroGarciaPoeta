@@ -28,6 +28,34 @@
     ]
   },
   {
+    "title": "Example de sonnnet 2",
+    "slug": "example-de-sonnnet-2",
+    "date": "2026-03-20",
+    "dedication": "A mi hijo gabriel Arturo",
+    "cuarteto1": [
+      "Example de sonnnet",
+      "Example de sonnnet",
+      "Example de sonnnet",
+      "Example de sonnnet"
+    ],
+    "cuarteto2": [
+      "Example de sonnnet",
+      "Example de sonnnet",
+      "Example de sonnnet",
+      "Example de sonnnet"
+    ],
+    "terceto1": [
+      "Example de sonnnet",
+      "Example de sonnnet",
+      "Example de sonnnet"
+    ],
+    "terceto2": [
+      "Example de sonnnet",
+      "Example de sonnnet",
+      "Example de sonnnet"
+    ]
+  },
+  {
     "title": "Example de sonnnet",
     "slug": "example-de-sonnnet",
     "date": "2026-03-20",
