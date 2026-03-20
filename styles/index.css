@@ -300,10 +300,10 @@
 }
 
 .sonnet-card__stanza {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
   font-family: var(--font-body);
   font-size: var(--text-base);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.95;
   color: var(--color-ink);
 }
