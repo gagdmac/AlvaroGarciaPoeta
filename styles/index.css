@@ -96,6 +96,12 @@
 }
 .bio-toggle:hover, .bio-toggle:focus-visible {
   color: var(--color-accent);
+}
+.bio-toggle:focus-visible {
+  outline: 0.125rem dashed var(--color-accent);
+  outline-offset: 0.125rem;
+}
+.bio-toggle:hover:not(:focus-visible) {
   outline: none;
 }
 .bio-toggle[aria-expanded=true] .bio-toggle__icon {
@@ -347,6 +353,12 @@
 .sonnet-card__share:hover, .sonnet-card__share:focus-visible {
   color: var(--color-bg);
   background: var(--color-accent);
+}
+.sonnet-card__share:focus-visible {
+  outline: 0.125rem dashed var(--color-accent);
+  outline-offset: 0.125rem;
+}
+.sonnet-card__share:hover:not(:focus-visible) {
   outline: none;
 }
 
@@ -406,6 +418,12 @@
   color: var(--color-accent);
   border-color: var(--color-accent);
   background: var(--color-accent-subtle);
+}
+.paginator__btn:focus-visible:not(:disabled) {
+  outline: 0.125rem dashed var(--color-accent);
+  outline-offset: 0.125rem;
+}
+.paginator__btn:hover:not(:disabled):not(:focus-visible) {
   outline: none;
 }
 .paginator__btn:disabled {

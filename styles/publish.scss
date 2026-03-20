@@ -500,7 +500,7 @@
   }
 
   &:focus-visible {
-    outline: #{rem-calc(2)} solid var(--color-focus);
+    outline: #{rem-calc(2)} dashed var(--color-accent);
     outline-offset: #{rem-calc(2)};
   }
 
@@ -884,7 +884,7 @@
   }
 
   &:focus-visible {
-    outline: #{rem-calc(2)} solid var(--color-accent);
+    outline: #{rem-calc(2)} dashed var(--color-accent);
     outline-offset: #{rem-calc(2)};
   }
 }
@@ -898,7 +898,7 @@
   }
 
   &:focus-visible {
-    outline: #{rem-calc(2)} solid var(--color-error);
+    outline: #{rem-calc(2)} dashed var(--color-error);
     outline-offset: #{rem-calc(2)};
   }
 

@@ -101,6 +101,14 @@
   &:hover,
   &:focus-visible {
     color: var(--color-accent);
+  }
+
+  &:focus-visible {
+    outline: #{rem-calc(2)} dashed var(--color-accent);
+    outline-offset: #{rem-calc(2)};
+  }
+
+  &:hover:not(:focus-visible) {
     outline: none;
   }
 
@@ -373,6 +381,14 @@
   &:focus-visible {
     color: var(--color-bg);
     background: var(--color-accent);
+  }
+
+  &:focus-visible {
+    outline: #{rem-calc(2)} dashed var(--color-accent);
+    outline-offset: #{rem-calc(2)};
+  }
+
+  &:hover:not(:focus-visible) {
     outline: none;
   }
 }
@@ -438,6 +454,14 @@
     color: var(--color-accent);
     border-color: var(--color-accent);
     background: var(--color-accent-subtle);
+  }
+
+  &:focus-visible:not(:disabled) {
+    outline: #{rem-calc(2)} dashed var(--color-accent);
+    outline-offset: #{rem-calc(2)};
+  }
+
+  &:hover:not(:disabled):not(:focus-visible) {
     outline: none;
   }
 

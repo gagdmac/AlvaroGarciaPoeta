@@ -71,7 +71,7 @@
     '  color: var(--color-ink, #1a1a1a);',
     '}',
     '.a11y-trigger:focus-visible {',
-    '  outline: 2px solid var(--color-focus, #2d5fa8);',
+    '  outline: 2px dashed var(--color-focus, #2d5fa8);',
     '  outline-offset: 2px;',
     '}',
 
@@ -133,7 +133,7 @@
     '  background: var(--color-accent-subtle, rgba(184,134,11,0.08));',
     '}',
     '.a11y-panel__close:focus-visible {',
-    '  outline: 2px solid var(--color-focus, #2d5fa8);',
+    '  outline: 2px dashed var(--color-focus, #2d5fa8);',
     '  outline-offset: 2px;',
     '}',
 
@@ -212,7 +212,7 @@
     '  transform: translateX(20px);',
     '}',
     '.a11y-toggle:focus-visible {',
-    '  outline: 2px solid var(--color-focus, #4a7cb8);',
+    '  outline: 2px dashed var(--color-focus, #4a7cb8);',
     '  outline-offset: 2px;',
     '}',
 
@@ -245,7 +245,7 @@
     '  cursor: not-allowed;',
     '}',
     '.a11y-font-stepper__btn:focus-visible {',
-    '  outline: 2px solid var(--color-focus, #2d5fa8);',
+    '  outline: 2px dashed var(--color-focus, #2d5fa8);',
     '  outline-offset: 2px;',
     '}',
     '.a11y-font-stepper__value {',
@@ -279,7 +279,7 @@
     '  background: var(--color-accent-subtle, rgba(184,134,11,0.08));',
     '}',
     '.a11y-reset:focus-visible {',
-    '  outline: 2px solid var(--color-focus, #2d5fa8);',
+    '  outline: 2px dashed var(--color-focus, #2d5fa8);',
     '  outline-offset: 2px;',
     '}',
 
