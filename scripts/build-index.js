@@ -19,7 +19,7 @@ const files = fs.readdirSync(SONNETS_DIR)
 const sonnets = files.map(file => {
   const content = fs.readFileSync(path.join(SONNETS_DIR, file), 'utf8');
   return JSON.parse(content);
-}).filter(s => !s.hidden);
+});
 
 // Sort newest first by createdAt timestamp, fallback to date
 sonnets.sort((a, b) => {

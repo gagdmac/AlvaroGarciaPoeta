@@ -817,8 +817,7 @@
 }
 .btn-delete.is-hidden {
   color: var(--color-error);
-  background: color-mix(in srgb, var(--color-error) 12%, transparent);
-  pointer-events: none;
+  background: color-mix(in srgb, var(--color-error) 8%, transparent);
 }
 
 .sonnets-empty {

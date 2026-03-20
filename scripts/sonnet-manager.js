@@ -48,7 +48,7 @@
           '<i class="fas fa-pen" aria-hidden="true"></i><span class="btn-action-label"> Editar</span>' +
           '</button>' +
           '<button class="btn-delete' + (sonnet.hidden ? ' is-hidden' : '') + '" aria-label="' + (sonnet.hidden ? 'Soneto oculto' : 'Ocultar soneto') + '" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
-          '<i class="fas ' + (sonnet.hidden ? 'fa-ban' : 'fa-eye-slash') + '" aria-hidden="true"></i><span class="btn-action-label"> ' + (sonnet.hidden ? 'Oculto' : 'Ocultar') + '</span>' +
+          '<i class="fas ' + (sonnet.hidden ? 'fa-eye' : 'fa-eye-slash') + '" aria-hidden="true"></i><span class="btn-action-label"> ' + (sonnet.hidden ? 'Oculto' : 'Ocultar') + '</span>' +
           '</button>' +
           '</div>';
 
