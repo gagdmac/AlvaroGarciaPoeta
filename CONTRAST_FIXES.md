@@ -1,7 +1,9 @@
 # WCAG 2.2 Contrast Compliance Fixes
 
 ## Overview
+
 Fixed 15 contrast failures (9 light mode, 6 dark mode) to meet WCAG 2.2 AA standards:
+
 - **WCAG 1.4.3 (AA)**: Minimum text contrast 4.5:1 (3:1 large text)
 - **WCAG 1.4.11 (AA)**: Non-text contrast 3:1 (UI components, borders)
 
@@ -10,7 +12,7 @@ Fixed 15 contrast failures (9 light mode, 6 dark mode) to meet WCAG 2.2 AA stand
 ### Light Mode Fixes ✅
 
 | Variable | Old Value | New Value | Reason | Contrast Ratio |
-|----------|-----------|-----------|--------|---|
+| --- | --- | --- | --- | --- |
 | `--color-ink-muted` | #999 | #555 | Text on light backgrounds (1.79:1 → 10:1) | 10:1 |
 | `--color-ink-secondary` | #5a5a5a | #4a4a4a | Improved contrast for secondary text | 8.5:1 |
 | `--color-ink-hero-muted` | #5a5a5a | #4a4a4a | Hero section muted text | 8.5:1 |
@@ -24,7 +26,7 @@ Fixed 15 contrast failures (9 light mode, 6 dark mode) to meet WCAG 2.2 AA stand
 ### Dark Mode Fixes ✅
 
 | Variable | Old Value | New Value | Reason | Contrast Ratio |
-|----------|-----------|-----------|--------|---|
+| --- | --- | --- | --- | --- |
 | `--color-ink-muted` | #666 | #a0a0a0 | Text on dark backgrounds (2.86:1 → 7.2:1) | 7.2:1 |
 | `--color-ink-secondary` | #a8a8a8 | #b3b3b3 | Further improved secondary text | 7.5:1 |
 | `--color-ink-hero-muted` | rgba(234,230,225,0.5) | #d4d4d4 | Solid lighter hero muted text | 9:1 |
@@ -43,14 +45,16 @@ Fixed 15 contrast failures (9 light mode, 6 dark mode) to meet WCAG 2.2 AA stand
 
 ## Improvements
 
-### Issues Resolved:
+### Issues Resolved
+
 - ✅ Muted text colors now meet 4.5:1 minimum contrast on both light and dark backgrounds
 - ✅ Accent colors meet 3:1 minimum for non-text contrast
 - ✅ UI component borders meet 3:1 non-text contrast requirement
 - ✅ Focus indicators have sufficient contrast for visibility
 - ✅ All fallback color values in `var()` functions updated to match new palette
 
-### Compliance Status:
+### Compliance Status
+
 - **WCAG 2.2 Level AA**: ✅ Fully Compliant
 - Light mode: 9 errors fixed
 - Dark mode: 6 errors fixed
@@ -59,6 +63,7 @@ Fixed 15 contrast failures (9 light mode, 6 dark mode) to meet WCAG 2.2 AA stand
 ## Testing Recommendations
 
 Use online tools to verify compliance:
+
 - [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
 - Chrome DevTools > Elements > Computed > Check contrast ratios
 - Wave Browser Extension for automated checks
