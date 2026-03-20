@@ -107,6 +107,7 @@ export async function onRequestPost(context) {
       headers: {
         Authorization: `Bearer ${env.GITHUB_TOKEN}`,
         Accept: 'application/vnd.github+json',
+        'User-Agent': 'AlvaroGarciaPoeta-Publisher',
       },
     });
 

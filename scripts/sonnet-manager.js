@@ -47,8 +47,8 @@
           '<button class="btn-edit" aria-label="Editar soneto" data-slug="' + escapeHtml(sonnet.slug) + '" data-date="' + escapeHtml(sonnet.date) + '" data-created-at="' + escapeHtml(sonnet.createdAt || '') + '">' +
           '<i class="fas fa-pen" aria-hidden="true"></i><span class="btn-action-label"> Editar</span>' +
           '</button>' +
-          '<button class="btn-delete" aria-label="Eliminar soneto" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
-          '<i class="fas fa-trash-alt" aria-hidden="true"></i><span class="btn-action-label"> Eliminar</span>' +
+          '<button class="btn-delete" aria-label="Ocultar soneto" data-filename="sonnets/' + escapeHtml(sonnet.date + '-' + sonnet.slug + '.json') + '">' +
+          '<i class="fas fa-eye-slash" aria-hidden="true"></i><span class="btn-action-label"> Ocultar</span>' +
           '</button>' +
           '</div>';
 
@@ -155,76 +155,29 @@
       .querySelector('.sonnet-item__title')
       .textContent;
 
-    if (confirm('¿Eliminar "' + title + '"?')) {
-      requestDeletePassword(filename, button);
+    if (confirm('¿Ocultar "' + title + '"?')) {
+      performDelete(filename, button);
     }
   }
 
-  function requestDeletePassword(filename, button) {
-    var dialog = document.getElementById('delete-password-dialog');
-    var input = document.getElementById('delete-password-input');
-    var confirmBtn = document.getElementById('delete-dialog-confirm');
-    var cancelBtn = document.getElementById('delete-dialog-cancel');
-
-    // Reset and show
-    input.value = '';
-    input.type = 'password';
-    var toggleBtn = dialog.querySelector('.password-toggle');
-    if (toggleBtn) {
-      toggleBtn.querySelector('i').className = 'fas fa-eye';
-      toggleBtn.setAttribute('aria-label', 'Mostrar contraseña');
-    }
-    dialog.hidden = false;
-    input.focus();
-
-    function cleanup() {
-      dialog.hidden = true;
-      confirmBtn.removeEventListener('click', onConfirm);
-      cancelBtn.removeEventListener('click', onCancel);
-      input.removeEventListener('keydown', onKeydown);
-    }
-
-    function onConfirm() {
-      var password = input.value;
-      if (!password) {
-        input.focus();
-        return;
-      }
-      cleanup();
-      performDelete(filename, password, button);
-    }
-
-    function onCancel() {
-      cleanup();
-    }
-
-    function onKeydown(e) {
-      if (e.key === 'Enter') onConfirm();
-      if (e.key === 'Escape') onCancel();
-    }
-
-    confirmBtn.addEventListener('click', onConfirm);
-    cancelBtn.addEventListener('click', onCancel);
-    input.addEventListener('keydown', onKeydown);
-  }
-
-  async function performDelete(filename, password, button) {
+  async function performDelete(filename, button) {
     button.disabled = true;
-button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span class="btn-action-label"> Eliminando…</span>';
+    button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><span class="btn-action-label"> Ocultando…</span>';
+
+    // Use the session password from the publish form
+    var passwordInput = document.getElementById('password');
+    var password = passwordInput ? passwordInput.value : '';
 
     try {
-      var res = await fetch('/api/delete', {
-        method: 'DELETE',
+      var res = await fetch('/api/hide', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filename: filename, password: password })
       });
 
-      if (res.status === 403) {
-        alert('Contraseña incorrecta.');
-      } else if (res.ok) {
-        alert('Soneto eliminado.');
+      if (res.ok) {
+        alert('Soneto ocultado.');
         button.closest('.sonnet-item').remove();
-        // Optionally reload the list
         sonnetsList.innerHTML = '';
         loadSonnets();
       } else {
@@ -232,11 +185,11 @@ button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i><sp
         alert('Error: ' + errText);
       }
     } catch (err) {
-      console.error('Delete error:', err);
+      console.error('Hide error:', err);
       alert('Error de conexión.');
     } finally {
       button.disabled = false;
-        button.innerHTML = '<i class="fas fa-trash-alt" aria-hidden="true"></i><span class="btn-action-label"> Eliminar</span>';
+      button.innerHTML = '<i class="fas fa-eye-slash" aria-hidden="true"></i><span class="btn-action-label"> Ocultar</span>';
     }
   }
 

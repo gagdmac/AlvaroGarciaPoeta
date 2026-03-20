@@ -329,6 +329,14 @@
 
   input {
     padding-right: #{rem-calc(44)};
+
+    &::-ms-reveal,
+    &::-webkit-contacts-auto-fill-button,
+    &::-webkit-credentials-auto-fill-button {
+      display: none !important;
+      visibility: hidden;
+      pointer-events: none;
+    }
   }
 }
 

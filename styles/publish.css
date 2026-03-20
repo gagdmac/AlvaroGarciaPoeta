@@ -314,6 +314,11 @@
 .password-wrapper input {
   padding-right: 2.75rem;
 }
+.password-wrapper input::-ms-reveal, .password-wrapper input::-webkit-contacts-auto-fill-button, .password-wrapper input::-webkit-credentials-auto-fill-button {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+}
 
 .password-toggle {
   position: absolute;

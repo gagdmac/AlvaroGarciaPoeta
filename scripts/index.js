@@ -145,7 +145,7 @@
     try {
       var res = await fetch('sonnets/index.json');
       if (!res.ok) throw new Error();
-      allSonnets = await res.json();
+      allSonnets = (await res.json()).filter(function (s) { return !s.hidden; });
       // Sort newest first by createdAt timestamp, fallback to date
       allSonnets.sort(function (a, b) {
         var aKey = a.createdAt || a.date;
