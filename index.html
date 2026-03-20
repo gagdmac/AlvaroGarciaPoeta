@@ -128,6 +128,7 @@
           footer.appendChild(time);
           var tag = document.createElement('span');
           tag.className = 'sonnet-card__tag';
+          tag.setAttribute('aria-hidden', 'true');
           tag.textContent = 'Soneto';
           footer.appendChild(tag);
           article.appendChild(footer);
@@ -146,6 +147,7 @@
 
           if (!sonnets.length) {
             emptyState.hidden = false;
+            // Only announce on empty state
             statusRegion.textContent = 'No hay sonetos publicados.';
             return;
           }
@@ -153,7 +155,7 @@
           var frag = document.createDocumentFragment();
           sonnets.forEach(function (s, i) { frag.appendChild(createSonnetCard(s, i)); });
           grid.appendChild(frag);
-          statusRegion.textContent = sonnets.length + ' sonetos cargados.';
+          // Don't announce on initial page load - aria-live is for dynamic updates only
         } catch (e) {
           emptyState.hidden = false;
           statusRegion.textContent = 'No hay sonetos publicados.';
