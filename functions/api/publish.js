@@ -74,12 +74,14 @@ export async function onRequestPost(context) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
 
-  const date = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  const date = now.toISOString().split('T')[0];
 
   const sonnetData = {
     title: cleanTitle,
     slug,
     date,
+    createdAt: now.toISOString(),
     dedication: (dedication && typeof dedication === 'string' && dedication.trim()) || null,
     cuarteto1: lines.slice(0, 4),
     cuarteto2: lines.slice(4, 8),
