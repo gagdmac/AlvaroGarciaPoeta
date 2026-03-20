@@ -80,6 +80,119 @@
   position: relative;
 }
 
+/* ── Bio Toggle Button ── */
+.bio-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-hero-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: color var(--duration-fast) var(--ease-out);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+    outline: none;
+  }
+
+  &[aria-expanded="true"] .bio-toggle__icon {
+    transform: rotate(180deg);
+  }
+}
+
+.bio-toggle__icon {
+  font-size: 0.6em;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+/* ── Bio Panel ── */
+.bio-panel {
+  background: var(--color-bg-hero);
+  border-bottom: #{rem-calc(1)} solid var(--color-border-subtle);
+  overflow: hidden;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.bio-panel__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-10);
+  max-width: #{rem-calc(720)};
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-6) var(--space-16);
+}
+
+.bio-panel__photo {
+  flex-shrink: 0;
+
+  img {
+    display: block;
+    width: #{rem-calc(180)};
+    height: #{rem-calc(180)};
+    object-fit: cover;
+    border-radius: 50%;
+    border: #{rem-calc(3)} solid var(--color-accent-subtle);
+    box-shadow: 0 #{rem-calc(8)} #{rem-calc(24)} rgba(0, 0, 0, 0.12);
+  }
+}
+
+.bio-panel__text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-ink-hero-muted);
+
+  p {
+    margin: 0 0 var(--space-4);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.bio-panel__name {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--color-ink-hero);
+  margin: 0 0 var(--space-2);
+}
+
+.bio-panel__rule {
+  font-size: #{rem-calc(6)};
+  color: var(--color-accent);
+  margin: 0 0 var(--space-4);
+  letter-spacing: 0.5em;
+}
+
+@include respond-below(sm) {
+  .bio-panel__inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .bio-panel__photo img {
+    width: #{rem-calc(140)};
+    height: #{rem-calc(140)};
+  }
+}
+
 /* ══════════════════════════════════════════
    SONNETS SECTION
    ══════════════════════════════════════════ */

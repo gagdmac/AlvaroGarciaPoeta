@@ -47,9 +47,27 @@
   <header class="hero" role="banner">
     <span class="hero__overline" aria-hidden="true">Sonetos</span>
     <h1 class="hero__title">Álvaro García</h1>
-    <p class="hero__subtitle"><em>BIO</em></p>
+    <button class="bio-toggle hero__subtitle" id="bio-toggle" aria-expanded="false" aria-controls="bio-panel">
+      <span class="bio-toggle__label"><em>Bio</em></span>
+      <i class="fas fa-chevron-down bio-toggle__icon" aria-hidden="true"></i>
+    </button>
     <span class="hero__ornament" aria-hidden="true"></span>
   </header>
+
+  <!-- Bio Panel -->
+  <section class="bio-panel" id="bio-panel" hidden aria-labelledby="bio-toggle">
+    <div class="bio-panel__inner">
+      <div class="bio-panel__photo">
+        <img src="assets/GAGD.jpg" alt="Retrato de Álvaro García" width="280" height="280" loading="lazy">
+      </div>
+      <div class="bio-panel__text">
+        <h2 class="bio-panel__name">Álvaro García</h2>
+        <p class="bio-panel__rule"><span aria-hidden="true">◆</span></p>
+        <p>Poeta y sonetista. Cultiva el verso clásico con sensibilidad contemporánea, explorando los territorios del amor, la memoria y el paisaje a través de la forma cerrada del soneto.</p>
+        <p>Su escritura busca el equilibrio entre la disciplina métrica heredada y una voz personal que dialoga con la tradición lírica española.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Navigation (sticky below hero) -->
   <script src="components/header.js"></script>
@@ -79,5 +97,25 @@
 
   <!-- Sonnets Loader -->
   <script src="scripts/index.js"></script>
+
+  <!-- Bio Toggle -->
+  <script>
+    (function () {
+      var btn = document.getElementById('bio-toggle');
+      var panel = document.getElementById('bio-panel');
+      if (!btn || !panel) return;
+      btn.addEventListener('click', function () {
+        var open = panel.hasAttribute('hidden');
+        if (open) {
+          panel.removeAttribute('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+          panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          panel.setAttribute('hidden', '');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
