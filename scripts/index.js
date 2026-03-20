@@ -87,8 +87,17 @@
       shareBtn.innerHTML = '<i class="fas fa-share-alt" aria-hidden="true"></i> Facebook';
       shareBtn.addEventListener('click', function () {
         var siteUrl = window.location.origin;
-        var fbUrl = 'https://www.facebook.com/sharer.php?u=' + encodeURIComponent(siteUrl);
-        window.open(fbUrl, '_blank', 'width=600,height=500,noopener,noreferrer');
+        // On mobile, use native share sheet (lets user pick FB app if installed)
+        if (navigator.share) {
+          navigator.share({
+            title: 'Álvaro García — Poeta',
+            url: siteUrl
+          }).catch(function () { /* user cancelled */ });
+        } else {
+          // Desktop fallback: open Facebook web sharer
+          var fbUrl = 'https://www.facebook.com/sharer.php?u=' + encodeURIComponent(siteUrl);
+          window.open(fbUrl, '_blank', 'width=600,height=500,noopener,noreferrer');
+        }
       });
       footer.appendChild(shareBtn);
 
