@@ -103,29 +103,68 @@
     return item;
   }
 
+  var PER_PAGE = 6;
+  var allSonnets = [];
+  var currentPage = 1;
+  var totalPages = 1;
+
+  var paginator = document.getElementById('paginator');
+  var prevBtn = document.getElementById('paginator-prev');
+  var nextBtn = document.getElementById('paginator-next');
+  var pageInfo = document.getElementById('paginator-info');
+
+  function renderPage(page) {
+    currentPage = page;
+    grid.innerHTML = '';
+    var start = (page - 1) * PER_PAGE;
+    var slice = allSonnets.slice(start, start + PER_PAGE);
+    var frag = document.createDocumentFragment();
+    slice.forEach(function (s, i) { frag.appendChild(createSonnetCard(s, start + i)); });
+    grid.appendChild(frag);
+    updatePaginator();
+    // Scroll to top of sonnets section
+    var section = document.getElementById('sonnets-heading');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function updatePaginator() {
+    if (totalPages <= 1) {
+      paginator.hidden = true;
+      return;
+    }
+    paginator.hidden = false;
+    pageInfo.textContent = currentPage + ' / ' + totalPages;
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages;
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function () {
+    if (currentPage > 1) renderPage(currentPage - 1);
+  });
+  if (nextBtn) nextBtn.addEventListener('click', function () {
+    if (currentPage < totalPages) renderPage(currentPage + 1);
+  });
+
   async function loadSonnets() {
     try {
       var res = await fetch('sonnets/index.json');
       if (!res.ok) throw new Error();
-      var sonnets = await res.json();
+      allSonnets = await res.json();
       // Sort newest first by createdAt timestamp, fallback to date
-      sonnets.sort(function (a, b) {
+      allSonnets.sort(function (a, b) {
         var aKey = a.createdAt || a.date;
         var bKey = b.createdAt || b.date;
         return bKey.localeCompare(aKey);
       });
 
-      if (!sonnets.length) {
+      if (!allSonnets.length) {
         emptyState.hidden = false;
-        // Only announce on empty state
         statusRegion.textContent = 'No hay sonetos publicados.';
         return;
       }
 
-      var frag = document.createDocumentFragment();
-      sonnets.forEach(function (s, i) { frag.appendChild(createSonnetCard(s, i)); });
-      grid.appendChild(frag);
-      // Don't announce on initial page load - aria-live is for dynamic updates only
+      totalPages = Math.ceil(allSonnets.length / PER_PAGE);
+      renderPage(1);
     } catch (e) {
       emptyState.hidden = false;
       statusRegion.textContent = 'No hay sonetos publicados.';
