@@ -1,13 +1,6 @@
 name = "alvaro-garcia-poeta"
-main = "functions/api/publish.js"
 compatibility_date = "2025-09-27"
 compatibility_flags = ["nodejs_compat"]
-
-# Serve static assets from the root
-[env.production]
-routes = [
-  { pattern = "api/*", zone_name = "alvaro-garcia-poeta.garturogdiaz.workers.dev" }
-]
 
 [observability]
 enabled = true
