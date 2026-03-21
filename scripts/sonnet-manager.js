@@ -36,13 +36,15 @@
           .join('\n');
 
         var content = '<span class="sonnet-item__date">' + (sonnet.date || 'Sin fecha') + '</span>' +
+          '<div class="sonnet-item__body">' +
           '<h3 class="sonnet-item__title">' + escapeHtml(sonnet.title || 'Sans titre') + '</h3>';
 
         if (sonnet.dedication) {
           content += '<p class="sonnet-item__dedication">— ' + escapeHtml(sonnet.dedication) + '</p>';
         }
 
-        content += '<div class="sonnet-item__verses">' + escapeHtml(versesPreview) + '…</div>' +
+        content += '</div>' +
+          '<div class="sonnet-item__verses">' + escapeHtml(versesPreview) + '…</div>' +
           '<div class="sonnet-item__actions">' +
           '<button class="btn-edit" data-tooltip="Editar" aria-label="Editar soneto" data-slug="' + escapeHtml(sonnet.slug) + '" data-date="' + escapeHtml(sonnet.date) + '" data-created-at="' + escapeHtml(sonnet.createdAt || '') + '">' +
           '<i class="fas fa-pen" aria-hidden="true"></i><span class="btn-action-label"> Editar</span>' +
