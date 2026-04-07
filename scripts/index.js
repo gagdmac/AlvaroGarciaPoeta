@@ -52,6 +52,13 @@
     // Header
     var header = document.createElement('div');
     header.className = 'sonnet-card__header';
+
+    var typeBadge = document.createElement('span');
+    typeBadge.className = 'sonnet-card__type';
+    typeBadge.textContent = typeLabel;
+    typeBadge.setAttribute('aria-label', 'Tipo: ' + typeLabel);
+    header.appendChild(typeBadge);
+
     var title = document.createElement('h3');
     title.className = 'sonnet-card__title';
     title.textContent = sonnet.title;

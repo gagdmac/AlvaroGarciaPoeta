@@ -12,7 +12,7 @@
   var currentPage = location.pathname.split('/').pop() || 'index.html';
 
   var links = [
-    { href: 'index.html', label: 'Sonetos' },
+    { href: 'index.html', label: 'Poemas' },
     { href: 'publish.html', label: 'Publicar' }
   ];
 
