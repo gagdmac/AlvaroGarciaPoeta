@@ -339,6 +339,20 @@
   display: block;
 }
 
+/* ── Acrostic: highlight first letter of each verse ── */
+.sonnet-card[data-poem-type='acrostico'] .sonnet-card__stanza {
+  line-height: 1.65;
+}
+
+.sonnet-card[data-poem-type='acrostico'] .sonnet-card__verse::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.15em;
+  color: var(--color-accent);
+  margin-right: 0.18em;
+}
+
 .sonnet-card__footer {
   margin-top: var(--space-6);
   padding-top: var(--space-4);

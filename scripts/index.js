@@ -40,6 +40,7 @@
     var article = document.createElement('article');
     article.className = 'sonnet-card';
     article.setAttribute('aria-label', typeLabel + ': ' + sonnet.title);
+    article.setAttribute('data-poem-type', sonnet.type || 'soneto');
 
     // Ghost number
     var num = document.createElement('span');
