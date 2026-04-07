@@ -31,9 +31,12 @@
         var item = document.createElement('div');
         item.className = 'sonnet-item';
 
-        var versesPreview = (sonnet.cuarteto1 || [])
-          .slice(0, 2)
-          .join('\n');
+        var versesPreview;
+        if (sonnet.type && sonnet.type !== 'soneto') {
+          versesPreview = (sonnet.verses || []).slice(0, 2).join('\n');
+        } else {
+          versesPreview = (sonnet.cuarteto1 || []).slice(0, 2).join('\n');
+        }
 
         var content = '<span class="sonnet-item__date">' + (sonnet.date || 'Sin fecha') + '</span>' +
           '<div class="sonnet-item__body">' +
@@ -118,19 +121,32 @@
         // Update submit button text
         var submitBtn = document.getElementById('submit-btn');
         if (submitBtn) {
-          submitBtn.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i> Guardar Soneto';
+          submitBtn.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i> Guardar cambios';
         }
       }
 
       if (titleInput) titleInput.value = sonnet.title || '';
       if (dedicationInput) dedicationInput.value = sonnet.dedication || '';
 
-      // Reconstruct the 14 verses from the stanza arrays
-      var lines = []
-        .concat(sonnet.cuarteto1 || [])
-        .concat(sonnet.cuarteto2 || [])
-        .concat(sonnet.terceto1 || [])
-        .concat(sonnet.terceto2 || []);
+      // Set the poem type radio button
+      var poemType = sonnet.type || 'soneto';
+      var typeRadio = document.querySelector('input[name="poem-type"][value="' + poemType + '"]');
+      if (typeRadio) {
+        typeRadio.checked = true;
+        typeRadio.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      // Reconstruct verses from the correct structure
+      var lines;
+      if (sonnet.type && sonnet.type !== 'soneto') {
+        lines = sonnet.verses || [];
+      } else {
+        lines = []
+          .concat(sonnet.cuarteto1 || [])
+          .concat(sonnet.cuarteto2 || [])
+          .concat(sonnet.terceto1 || [])
+          .concat(sonnet.terceto2 || []);
+      }
 
       if (sonnetTextarea) {
         sonnetTextarea.value = lines.join('\n');

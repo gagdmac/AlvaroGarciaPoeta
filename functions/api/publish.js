@@ -35,7 +35,7 @@ export async function onRequestPost(context) {
     return new Response('JSON inválido', { status: 400 });
   }
 
-  const { password, title, dedication, sonnet, createdAt: clientCreatedAt, originalDate } = body;
+  const { password, title, dedication, sonnet, createdAt: clientCreatedAt, originalDate, poemType } = body;
 
   // ── Authentication ──
   if (!password || password !== env.PUBLISH_PASSWORD) {
@@ -51,21 +51,32 @@ export async function onRequestPost(context) {
     return new Response('El título es demasiado largo (máx. 200 caracteres)', { status: 400 });
   }
 
-  // ── Validate sonnet ──
+  // ── Validate poem body ──
   if (!sonnet || typeof sonnet !== 'string') {
-    return new Response('El soneto es obligatorio', { status: 400 });
+    return new Response('El texto del poema es obligatorio', { status: 400 });
   }
 
   const lines = sonnet.split('\n').filter(l => l.trim().length > 0);
 
-  if (lines.length !== 14) {
-    return new Response(
-      `El soneto debe tener 14 versos (tiene ${lines.length})`,
-      { status: 400 }
-    );
+  // Poem type rules
+  const POEM_TYPE_RULES = {
+    soneto:       { min: 14, max: 14,  label: 'soneto' },
+    acrostico:    { min: 2,  max: 50,  label: 'acróstico' },
+    haiku:        { min: 3,  max: 3,   label: 'haiku' },
+    'verso-libre':{ min: 1,  max: 200, label: 'verso libre' },
+  };
+
+  const typeKey = (poemType && POEM_TYPE_RULES[poemType]) ? poemType : 'soneto';
+  const rules = POEM_TYPE_RULES[typeKey];
+
+  if (lines.length < rules.min || lines.length > rules.max) {
+    const msg = rules.min === rules.max
+      ? `El ${rules.label} debe tener ${rules.min} versos (tiene ${lines.length})`
+      : `El ${rules.label} debe tener entre ${rules.min} y ${rules.max} versos (tiene ${lines.length})`;
+    return new Response(msg, { status: 400 });
   }
 
-  // ── Build sonnet data ──
+  // ── Build poem data ──
   const cleanTitle = title.trim();
   const slug = cleanTitle
     .toLowerCase()
@@ -76,27 +87,50 @@ export async function onRequestPost(context) {
 
   const now = new Date();
   const date = originalDate || now.toISOString().split('T')[0];
+  const cleanDedication = (dedication && typeof dedication === 'string' && dedication.trim()) || null;
 
-  const sonnetData = {
-    title: cleanTitle,
-    slug,
-    date,
-    createdAt: clientCreatedAt || now.toISOString(),
-    dedication: (dedication && typeof dedication === 'string' && dedication.trim()) || null,
-    cuarteto1: lines.slice(0, 4),
-    cuarteto2: lines.slice(4, 8),
-    terceto1: lines.slice(8, 11),
-    terceto2: lines.slice(11, 14),
+  let poemData;
+  if (typeKey === 'soneto') {
+    poemData = {
+      type: 'soneto',
+      title: cleanTitle,
+      slug,
+      date,
+      createdAt: clientCreatedAt || now.toISOString(),
+      dedication: cleanDedication,
+      cuarteto1: lines.slice(0, 4),
+      cuarteto2: lines.slice(4, 8),
+      terceto1: lines.slice(8, 11),
+      terceto2: lines.slice(11, 14),
+    };
+  } else {
+    poemData = {
+      type: typeKey,
+      title: cleanTitle,
+      slug,
+      date,
+      createdAt: clientCreatedAt || now.toISOString(),
+      dedication: cleanDedication,
+      verses: lines,
+    };
+  }
+
+  const TYPE_COMMIT_LABELS = {
+    soneto: 'soneto',
+    acrostico: 'acróstico',
+    haiku: 'haiku',
+    'verso-libre': 'verso libre',
   };
 
-  const fileContent = JSON.stringify(sonnetData, null, 2);
+  const fileContent = JSON.stringify(poemData, null, 2);
   const filePath = `sonnets/${date}-${slug}.json`;
   const ghUrl = `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${filePath}`;
 
-  console.log('Publishing sonnet:', {
+  console.log('Publishing poem:', {
     repo: env.GITHUB_REPO,
     filePath,
     title: cleanTitle,
+    type: typeKey,
     hasToken: !!env.GITHUB_TOKEN,
   });
 
@@ -120,8 +154,9 @@ export async function onRequestPost(context) {
     }
 
     // Prepare the PUT body
+    const commitLabel = TYPE_COMMIT_LABELS[typeKey] || 'poema';
     const putBody = {
-      message: `Nuevo soneto: ${cleanTitle}`,
+      message: `Nuevo ${commitLabel}: ${cleanTitle}`,
       content: btoa(unescape(encodeURIComponent(fileContent))),
     };
 
@@ -150,8 +185,8 @@ export async function onRequestPost(context) {
       return new Response(`GitHub error: ${ghResponse.status}`, { status: 500 });
     }
 
-    console.log('Sonnet published successfully');
-    return new Response('Soneto publicado', { status: 200 });
+    console.log('Poem published successfully');
+    return new Response('Poema publicado', { status: 200 });
   } catch (error) {
     console.error('Publish error:', error.message, error.stack);
     return new Response(`Error: ${error.message}`, { status: 500 });

@@ -77,10 +77,46 @@
   <!-- Main Content (hidden until gate is passed) -->
   <main id="main-content">
     <section class="publish-section" aria-labelledby="publish-heading">
+
+      <!-- Poem Type Picker -->
+      <div class="poem-type-picker" role="group" aria-labelledby="poem-type-label">
+        <span id="poem-type-label" class="poem-type-picker__label">Tipo de composición</span>
+        <div class="poem-type-picker__options">
+          <label class="poem-type-option">
+            <input type="radio" name="poem-type" value="soneto" checked>
+            <span class="poem-type-option__inner">
+              <i class="fas fa-scroll" aria-hidden="true"></i>
+              Soneto
+            </span>
+          </label>
+          <label class="poem-type-option">
+            <input type="radio" name="poem-type" value="acrostico">
+            <span class="poem-type-option__inner">
+              <i class="fas fa-signature" aria-hidden="true"></i>
+              Acróstico
+            </span>
+          </label>
+          <label class="poem-type-option">
+            <input type="radio" name="poem-type" value="haiku">
+            <span class="poem-type-option__inner">
+              <i class="fas fa-leaf" aria-hidden="true"></i>
+              Haiku
+            </span>
+          </label>
+          <label class="poem-type-option">
+            <input type="radio" name="poem-type" value="verso-libre">
+            <span class="poem-type-option__inner">
+              <i class="fas fa-feather" aria-hidden="true"></i>
+              Verso libre
+            </span>
+          </label>
+        </div>
+      </div>
+
       <div class="publish-header">
         <span class="publish-header__overline" aria-hidden="true">Nuevo</span>
         <h1 id="publish-heading" class="publish-header__title">Publicar Soneto</h1>
-        <p class="publish-header__subtitle">Escribe o pega un soneto de 14 versos</p>
+        <p id="publish-subtitle" class="publish-header__subtitle">Escribe o pega un soneto de 14 versos</p>
       </div>
 
       <!-- Form + Preview (side-by-side) -->
@@ -110,7 +146,7 @@
 
               <!-- Title -->
               <div class="form-group">
-                <label for="title">Título del soneto</label>
+                <label for="title" id="title-label">Título del soneto</label>
                 <input
                   type="text"
                   id="title"
@@ -138,7 +174,7 @@
 
               <!-- Sonnet body -->
               <div class="form-group">
-                <label for="sonnet">Soneto</label>
+                <label for="sonnet" id="poem-body-label">Soneto</label>
                 <span class="form-hint" id="sonnet-hint">14 versos, uno por línea. Dos cuartetos (4+4) y dos tercetos (3+3).</span>
                 <textarea
                   id="sonnet"

@@ -251,6 +251,12 @@ body {
 /* ══════════════════════════════════════════
    RESPONSIVE — Shared
    ══════════════════════════════════════════ */
+
+.row{
+padding-left: 0 !important;
+padding-right: 0 !important;
+}
+
 @include respond-below(xs) {
   .site-nav__inner {
     gap: var(--space-4);
