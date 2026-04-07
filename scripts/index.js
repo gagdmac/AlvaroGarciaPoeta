@@ -30,6 +30,169 @@
     return el;
   }
 
+  // ── Image export helpers ─────────────────────────────────────────────────
+  function wrapText(ctx, text, maxWidth) {
+    if (!text) return [''];
+    var words = text.split(' ');
+    var lines = [];
+    var current = '';
+    for (var i = 0; i < words.length; i++) {
+      var word = words[i];
+      var test = current ? current + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    }
+    if (current) lines.push(current);
+    return lines.length ? lines : [''];
+  }
+
+  function generatePoemImage(sonnet, typeLabel) {
+    return document.fonts.ready.then(function () {
+      var SCALE = 2, W = 680, PAD_H = 52, PAD_V = 48, MAX_W = W - PAD_H * 2;
+
+      var C_BG = '#f8f5f0', C_INK = '#1a1a1a', C_ACCENT = '#996608',
+          C_MUTED = '#555555', C_BORDER = '#d8d0c6';
+      var FONT_DISPLAY = '"Playfair Display", Georgia, serif';
+      var FONT_BODY    = '"DM Sans", "Helvetica Neue", sans-serif';
+      var VERSE_SIZE = 14.5, VERSE_LH = 26, TITLE_SIZE = 28, TITLE_LH = 36;
+      var isAcrostic = sonnet.type === 'acrostico';
+
+      var stanzas;
+      if (sonnet.type && sonnet.type !== 'soneto') {
+        stanzas = [sonnet.verses || []];
+      } else {
+        stanzas = [
+          sonnet.cuarteto1 || [], sonnet.cuarteto2 || [],
+          sonnet.terceto1  || [], sonnet.terceto2  || []
+        ].filter(function (s) { return s.length > 0; });
+      }
+
+      // Pass 1: measure height
+      var tmp = document.createElement('canvas');
+      tmp.width = W * SCALE; tmp.height = 100;
+      var tc = tmp.getContext('2d');
+      tc.scale(SCALE, SCALE);
+
+      tc.font = 'italic 600 ' + TITLE_SIZE + 'px ' + FONT_DISPLAY;
+      var titleLines = wrapText(tc, sonnet.title || '', MAX_W);
+
+      var totalVerseH = stanzas.reduce(function (acc, stanza, si) {
+        tc.font = VERSE_SIZE + 'px ' + FONT_BODY;
+        var h = stanza.reduce(function (a, v) {
+          return a + wrapText(tc, v.trim(), MAX_W).length * VERSE_LH;
+        }, 0);
+        return acc + h + (si < stanzas.length - 1 ? 24 : 0);
+      }, 0);
+
+      var totalH = PAD_V + 18 + 10
+        + titleLines.length * TITLE_LH + 8
+        + (sonnet.dedication ? 28 : 0)
+        + 24 + 1 + 24 + totalVerseH
+        + 32 + 1 + 20 + 16 + 6
+        + (sonnet.date ? 16 : 0) + PAD_V;
+
+      // Pass 2: draw
+      var canvas = document.createElement('canvas');
+      canvas.width = W * SCALE;
+      canvas.height = Math.ceil(totalH) * SCALE;
+      var ctx = canvas.getContext('2d');
+      ctx.scale(SCALE, SCALE);
+
+      ctx.fillStyle = C_BG;
+      ctx.fillRect(0, 0, W, Math.ceil(totalH));
+
+      // Ruled paper texture
+      ctx.strokeStyle = C_BORDER; ctx.lineWidth = 0.5; ctx.globalAlpha = 0.18;
+      for (var ry = 28; ry < totalH; ry += 28) {
+        ctx.beginPath(); ctx.moveTo(0, ry); ctx.lineTo(W, ry); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      ctx.textBaseline = 'top';
+
+      function setLS(v) { if ('letterSpacing' in ctx) ctx.letterSpacing = v; }
+
+      var y = PAD_V;
+
+      // Type badge
+      ctx.font = '500 10px ' + FONT_BODY; setLS('2px');
+      ctx.fillStyle = C_ACCENT;
+      ctx.fillText(typeLabel.toUpperCase(), PAD_H, y);
+      y += 28;
+
+      // Title
+      ctx.font = 'italic 600 ' + TITLE_SIZE + 'px ' + FONT_DISPLAY; setLS('-0.3px');
+      ctx.fillStyle = C_INK;
+      titleLines.forEach(function (line) { ctx.fillText(line, PAD_H, y); y += TITLE_LH; });
+      y += 8;
+
+      // Dedication
+      if (sonnet.dedication) {
+        ctx.font = '300 italic 13px ' + FONT_BODY; setLS('0px');
+        ctx.fillStyle = C_MUTED;
+        ctx.fillText(sonnet.dedication, PAD_H, y);
+        y += 28;
+      }
+      y += 24;
+
+      // Gold rule
+      ctx.fillStyle = C_ACCENT; ctx.globalAlpha = 0.6;
+      ctx.fillRect(PAD_H, y, 24, 1);
+      ctx.globalAlpha = 1;
+      y += 25;
+
+      // Verses
+      stanzas.forEach(function (stanza, si) {
+        stanza.forEach(function (verse) {
+          ctx.font = VERSE_SIZE + 'px ' + FONT_BODY; setLS('0px');
+          var wrapped = wrapText(ctx, verse.trim(), MAX_W);
+          wrapped.forEach(function (line, li) {
+            if (isAcrostic && li === 0 && line.length > 0) {
+              var firstChar = line.charAt(0), rest = line.slice(1);
+              ctx.save();
+              ctx.font = 'italic 700 ' + (VERSE_SIZE * 1.15) + 'px ' + FONT_DISPLAY;
+              ctx.fillStyle = C_ACCENT;
+              ctx.fillText(firstChar, PAD_H, y);
+              var firstW = ctx.measureText(firstChar).width + 2;
+              ctx.restore();
+              ctx.font = VERSE_SIZE + 'px ' + FONT_BODY; setLS('0px');
+              ctx.fillStyle = C_INK;
+              ctx.fillText(rest, PAD_H + firstW, y);
+            } else {
+              ctx.fillStyle = C_INK;
+              ctx.fillText(line, PAD_H, y);
+            }
+            y += VERSE_LH;
+          });
+        });
+        if (si < stanzas.length - 1) y += 24;
+      });
+
+      // Footer rule
+      y += 32;
+      ctx.strokeStyle = C_BORDER; ctx.lineWidth = 1; ctx.globalAlpha = 0.5;
+      ctx.beginPath(); ctx.moveTo(PAD_H, y); ctx.lineTo(W - PAD_H, y); ctx.stroke();
+      ctx.globalAlpha = 1;
+      y += 20;
+
+      ctx.font = '400 11px ' + FONT_BODY; setLS('1.5px');
+      ctx.fillStyle = C_MUTED;
+      ctx.fillText('\u00c1LVARO GARC\u00cdA \u2014 POETA', PAD_H, y);
+      y += 22;
+
+      if (sonnet.date) {
+        ctx.font = '300 11px ' + FONT_BODY; setLS('0px');
+        ctx.fillStyle = C_MUTED;
+        ctx.fillText(formatDate(sonnet.date), PAD_H, y);
+      }
+
+      return canvas;
+    });
+  }
+
   function createSonnetCard(sonnet, index) {
     var item = document.createElement('div');
     item.className = 'masonry-item col-12 col-md-6';
@@ -100,21 +263,34 @@
       footer.appendChild(time);
       var shareBtn = document.createElement('button');
       shareBtn.className = 'sonnet-card__share';
-      shareBtn.setAttribute('aria-label', 'Compartir en Facebook');
-      shareBtn.innerHTML = '<i class="fas fa-share-alt" aria-hidden="true"></i> Facebook';
+      shareBtn.setAttribute('aria-label', 'Compartir imagen del poema');
+      shareBtn.innerHTML = '<i class="fas fa-image" aria-hidden="true"></i> Compartir';
       shareBtn.addEventListener('click', function () {
-        var siteUrl = window.location.origin;
-        // On mobile, use native share sheet (lets user pick FB app if installed)
-        if (navigator.share) {
-          navigator.share({
-            title: 'Álvaro García — Poeta',
-            url: siteUrl
-          }).catch(function () { /* user cancelled */ });
-        } else {
-          // Desktop fallback: open Facebook web sharer
-          var fbUrl = 'https://www.facebook.com/sharer.php?u=' + encodeURIComponent(siteUrl);
-          window.open(fbUrl, '_blank', 'width=600,height=500,noopener,noreferrer');
+        shareBtn.disabled = true;
+        shareBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>';
+        function resetBtn() {
+          shareBtn.disabled = false;
+          shareBtn.innerHTML = '<i class="fas fa-image" aria-hidden="true"></i> Compartir';
         }
+        generatePoemImage(sonnet, typeLabel)
+          .then(function (canvas) {
+            canvas.toBlob(function (blob) {
+              var filename = (sonnet.slug || 'poema') + '.png';
+              var file = new File([blob], filename, { type: 'image/png' });
+              if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                navigator.share({ files: [file], title: sonnet.title })
+                  .catch(function () {})
+                  .finally(resetBtn);
+              } else {
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url; a.download = filename; a.click();
+                setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+                resetBtn();
+              }
+            }, 'image/png');
+          })
+          .catch(resetBtn);
       });
       footer.appendChild(shareBtn);
 
