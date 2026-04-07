@@ -34,9 +34,12 @@
     var item = document.createElement('div');
     item.className = 'masonry-item col-12 col-md-6';
 
+    var TYPE_LABELS = { soneto: 'Soneto', acrostico: 'Acróstico', haiku: 'Haiku', 'verso-libre': 'Verso libre' };
+    var typeLabel = TYPE_LABELS[sonnet.type] || 'Soneto';
+
     var article = document.createElement('article');
     article.className = 'sonnet-card';
-    article.setAttribute('aria-label', 'Soneto: ' + sonnet.title);
+    article.setAttribute('aria-label', typeLabel + ': ' + sonnet.title);
 
     // Ghost number
     var num = document.createElement('span');
@@ -66,12 +69,18 @@
     hr.setAttribute('aria-hidden', 'true');
     article.appendChild(hr);
 
-    [['cuarteto1','Primer cuarteto'],['cuarteto2','Segundo cuarteto'],
-     ['terceto1','Primer terceto'],['terceto2','Segundo terceto']].forEach(function (p) {
-      if (sonnet[p[0]] && sonnet[p[0]].length) {
-        article.appendChild(createStanza(sonnet[p[0]], p[1]));
+    if (sonnet.type && sonnet.type !== 'soneto') {
+      if (sonnet.verses && sonnet.verses.length) {
+        article.appendChild(createStanza(sonnet.verses, 'Versos del ' + typeLabel.toLowerCase()));
       }
-    });
+    } else {
+      [['cuarteto1','Primer cuarteto'],['cuarteto2','Segundo cuarteto'],
+       ['terceto1','Primer terceto'],['terceto2','Segundo terceto']].forEach(function (p) {
+        if (sonnet[p[0]] && sonnet[p[0]].length) {
+          article.appendChild(createStanza(sonnet[p[0]], p[1]));
+        }
+      });
+    }
 
     if (sonnet.date) {
       var footer = document.createElement('div');
