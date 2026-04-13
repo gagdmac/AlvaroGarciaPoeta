@@ -1,0 +1,30 @@
+{
+  "type": "soneto",
+  "title": "Muñeca",
+  "slug": "muneca",
+  "date": "2026-04-13",
+  "createdAt": "2026-04-13T15:56:53.038Z",
+  "dedication": null,
+  "cuarteto1": [
+    "Que bella es mi muñeca consentida ",
+    "Y cuan preciosos son sus dulces ojos",
+    "Y esa boquita con sus labios rojos",
+    "Cuya sonrisa me endulzó la vida"
+  ],
+  "cuarteto2": [
+    "Mujercita linda, dónde está escondida ",
+    "Tierna muñequita  aquí estoy de hinojos",
+    "Para liberarme de tantos abrojos ",
+    "Y ver de cerquita tu luz encendida."
+  ],
+  "terceto1": [
+    "Siempre te recuerdo con el alma triste.",
+    "Preguntando a todos a donde te fuiste.",
+    "Sabiendo, no obstante que no estás muy lejos."
+  ],
+  "terceto2": [
+    "Y he de conformarme porque las muñecas",
+    "Son juegos de niñas, fantasías, penecas.",
+    "Nada para chicos, nada para viejos."
+  ]
+}
